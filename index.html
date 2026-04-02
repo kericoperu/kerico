@@ -120,7 +120,11 @@
         .hero-buttons { display: flex; flex-direction: column; gap: 15px; align-items: center; }
         .hero-buttons .btn { width: 100%; max-width: 280px; }
         
-        #trust-bar { background: var(--fondo-seccion); padding: 25px 20px; }
+        #trust-bar { background: var(--fondo-seccion); padding: 25px 0; overflow: hidden; }
+        .trust-marquee { overflow: hidden; width: 100%; }
+        .trust-track { display: flex; gap: 40px; width: max-content; animation: marquee 20s linear infinite; }
+        .trust-item { display: flex; align-items: center; gap: 10px; white-space: nowrap; }
+        @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
         .trust-container { max-width: 1400px; margin: 0 auto; display: flex; overflow-x: auto; gap: 30px; padding-bottom: 10px; scrollbar-width: none; -ms-overflow-style: none; }
         .trust-container::-webkit-scrollbar { display: none; }
         .trust-item { display: flex; align-items: center; gap: 12px; white-space: nowrap; flex-shrink: 0; }
@@ -136,7 +140,7 @@
         .slider-slide { min-width: 100%; padding: 0 10px; }
         .offer-card { background: linear-gradient(135deg, rgba(255, 51, 0, 0.3) 0%, rgba(255, 140, 0, 0.2) 100%); border-radius: 20px; padding: 30px 36px; display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 32px; text-align: left; position: relative; overflow: visible; }
         .offer-card::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, var(--purpura) 0%, var(--fucsia) 100%); opacity: 0.1; }
-        .offer-image { flex-shrink: 0; width: 220px; height: 220px; background: transparent; border-radius: 12px; display: flex; align-items: center; justify-content: center; position: relative; z-index: 1; overflow: hidden; }
+        .offer-image { flex-shrink: 0; width: 280px; height: 280px; background: transparent; border-radius: 12px; display: flex; align-items: center; justify-content: center; position: relative; z-index: 1; overflow: hidden; }
         .offer-content { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: flex-start; justify-content: center; }
         @media (max-width: 600px) { .offer-card { flex-direction: column; text-align: center; gap: 20px; position: relative; } .offer-content { align-items: center; } .offer-image { width: 140px; height: 140px; } .offer-badge { top: 8px; left: 50%; transform: translateX(-50%); font-size: 0.65rem; padding: 4px 10px; white-space: nowrap; } }
         .offer-card::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, var(--purpura) 0%, var(--fucsia) 100%); opacity: 0.1; }
@@ -660,12 +664,19 @@ src="https://www.facebook.com/tr?id=1451871843102454&ev=PageView&noscript=1"
 
     <!-- Trust Bar -->
     <section id="trust-bar">
-        <div class="trust-container">
-            <div class="trust-item"><div class="trust-icon">🔒</div><span class="trust-text">Envío 100% discreto</span></div>
-            <div class="trust-item"><div class="trust-icon">🚚</div><span class="trust-text">Pago contra entrega</span></div>
-            <div class="trust-item"><div class="trust-icon">🔥</div><span class="trust-text">Mejor precio del mercado</span></div>
-            <div class="trust-item"><div class="trust-icon">⭐</div><span class="trust-text">Atención personalizada</span></div>
-            <div class="trust-item"><div class="trust-icon">💳</div><span class="trust-text">Yape, transferencia y tarjeta</span></div>
+        <div class="trust-marquee">
+            <div class="trust-track">
+                <div class="trust-item"><div class="trust-icon">🔒</div><span class="trust-text">Envío 100% discreto</span></div>
+                <div class="trust-item"><div class="trust-icon">🚚</div><span class="trust-text">Pago contra entrega</span></div>
+                <div class="trust-item"><div class="trust-icon">🔥</div><span class="trust-text">Mejor precio del mercado</span></div>
+                <div class="trust-item"><div class="trust-icon">⭐</div><span class="trust-text">Atención personalizada</span></div>
+                <div class="trust-item"><div class="trust-icon">💳</div><span class="trust-text">Yape, transferencia y tarjeta</span></div>
+                <div class="trust-item"><div class="trust-icon">🔒</div><span class="trust-text">Envío 100% discreto</span></div>
+                <div class="trust-item"><div class="trust-icon">🚚</div><span class="trust-text">Pago contra entrega</span></div>
+                <div class="trust-item"><div class="trust-icon">🔥</div><span class="trust-text">Mejor precio del mercado</span></div>
+                <div class="trust-item"><div class="trust-icon">⭐</div><span class="trust-text">Atención personalizada</span></div>
+                <div class="trust-item"><div class="trust-icon">💳</div><span class="trust-text">Yape, transferencia y tarjeta</span></div>
+            </div>
         </div>
     </section>
 
@@ -682,8 +693,8 @@ src="https://www.facebook.com/tr?id=1451871843102454&ev=PageView&noscript=1"
             <div class="slider-wrapper" id="slider-wrapper" style="transition: transform 0.5s; transform: translateX(-400%);">
                 <div class="slider-slide">
                     <div class="offer-card">
-                        <span class="offer-badge">COMBO -13%</span>
-                        <div class="offer-image" onclick="openProductModal(24)" style="cursor:pointer;">
+                        <div class="offer-image" onclick="openProductModal(24)" style="cursor:pointer; position:relative;">
+                            
                             <img src="./imagenes/Combos Y Packs/Que Rico empieza.png" alt="Combo Que Rico Empieza" style="width:100%;height:100%;object-fit:contain;">
                         </div>
                         <div class="offer-content">
@@ -701,7 +712,7 @@ src="https://www.facebook.com/tr?id=1451871843102454&ev=PageView&noscript=1"
                 </div>
                 <div class="slider-slide">
                     <div class="offer-card">
-                        <span class="offer-badge">COMBO -26%</span>
+                        
                         <div class="offer-image" onclick="openProductModal(25)" style="cursor:pointer;">
                             <img src="./imagenes/Combos Y Packs/Combo Noche Completa.png" alt="Combo Noche Completa" style="width:100%;height:100%;object-fit:contain;">
                         </div>
@@ -720,7 +731,7 @@ src="https://www.facebook.com/tr?id=1451871843102454&ev=PageView&noscript=1"
                 </div>
                 <div class="slider-slide">
                     <div class="offer-card">
-                        <span class="offer-badge">COMBO -31%</span>
+                        
                         <div class="offer-image" onclick="openProductModal(28)" style="cursor:pointer;">
                             <img src="./imagenes/Combos Y Packs/Combo Control Total.png" alt="Combo Control Total Anal" style="width:100%;height:100%;object-fit:contain;">
                         </div>
@@ -739,7 +750,7 @@ src="https://www.facebook.com/tr?id=1451871843102454&ev=PageView&noscript=1"
                 </div>
                 <div class="slider-slide">
                     <div class="offer-card">
-                        <span class="offer-badge">COMBO -20%</span>
+                        
                         <div class="offer-image" onclick="openProductModal(29)" style="cursor:pointer;">
                             <img src="./imagenes/Combos Y Packs/kit BDSM.png" alt="Kit BDSM Primer Round" style="width:100%;height:100%;object-fit:contain;">
                         </div>
@@ -758,7 +769,7 @@ src="https://www.facebook.com/tr?id=1451871843102454&ev=PageView&noscript=1"
                 </div>
                 <div class="slider-slide">
                     <div class="offer-card">
-                        <span class="offer-badge">COMBO -18%</span>
+                        
                         <div class="offer-image" onclick="openProductModal(30)" style="cursor:pointer;">
                             <img src="./imagenes/Combos Y Packs/Combo Para Los dos.png" alt="Combo Para los Dos" style="width:100%;height:100%;object-fit:contain;">
                         </div>
@@ -777,7 +788,7 @@ src="https://www.facebook.com/tr?id=1451871843102454&ev=PageView&noscript=1"
                 </div>
                 <div class="slider-slide">
                     <div class="offer-card">
-                        <span class="offer-badge">COMBO -17%</span>
+                        
                         <div class="offer-image" onclick="openProductModal(32)" style="cursor:pointer;">
                             <img src="./imagenes/Combos Y Packs/Combo Primera Vez.png" alt="Combo Primera Vez Kerico" style="width:100%;height:100%;object-fit:contain;">
                         </div>
@@ -796,7 +807,7 @@ src="https://www.facebook.com/tr?id=1451871843102454&ev=PageView&noscript=1"
                 </div>
                 <div class="slider-slide">
                     <div class="offer-card">
-                        <span class="offer-badge">COMBO -22%</span>
+                        
                         <div class="offer-image" onclick="openProductModal(34)" style="cursor:pointer;">
                             <img src="./imagenes/Combos Y Packs/Combo Sucker Experience.png" alt="Combo Sucker Experience" style="width:100%;height:100%;object-fit:contain;">
                         </div>
