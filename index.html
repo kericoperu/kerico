@@ -134,13 +134,13 @@
         .slider-container { position: relative; max-width: 1200px; margin: 0 auto; overflow: hidden; }
         .slider-wrapper { display: flex; transition: transform 0.5s ease; }
         .slider-slide { min-width: 100%; padding: 0 10px; }
-        .offer-card { background: linear-gradient(135deg, rgba(255, 51, 0, 0.3) 0%, rgba(255, 140, 0, 0.2) 100%); border-radius: 20px; padding: 30px 36px; display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 32px; text-align: left; position: relative; overflow: hidden; }
+        .offer-card { background: linear-gradient(135deg, rgba(255, 51, 0, 0.3) 0%, rgba(255, 140, 0, 0.2) 100%); border-radius: 20px; padding: 30px 36px; display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 32px; text-align: left; position: relative; overflow: visible; }
         .offer-card::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, var(--purpura) 0%, var(--fucsia) 100%); opacity: 0.1; }
-        .offer-image { flex-shrink: 0; width: 160px; height: 160px; background: transparent; border-radius: 12px; display: flex; align-items: center; justify-content: center; position: relative; z-index: 1; overflow: hidden; }
+        .offer-image { flex-shrink: 0; width: 220px; height: 220px; background: transparent; border-radius: 12px; display: flex; align-items: center; justify-content: center; position: relative; z-index: 1; overflow: hidden; }
         .offer-content { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: flex-start; justify-content: center; }
         @media (max-width: 600px) { .offer-card { flex-direction: column; text-align: center; gap: 20px; position: relative; } .offer-content { align-items: center; } .offer-image { width: 140px; height: 140px; } .offer-badge { top: 8px; left: 50%; transform: translateX(-50%); font-size: 0.65rem; padding: 4px 10px; white-space: nowrap; } }
         .offer-card::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, var(--purpura) 0%, var(--fucsia) 100%); opacity: 0.1; }
-        .offer-badge { position: absolute; top: 8px; left: 8px; background: var(--fucsia); color: var(--blanco); padding: 6px 14px; border-radius: 20px; font-size: 0.8rem; font-weight: 700; }
+        .offer-badge { position: absolute; top: 8px; left: 8px; background: var(--fucsia); color: var(--blanco); padding: 4px 10px; border-radius: 20px; font-size: 0.65rem; font-weight: 700; white-space: nowrap; }
         
         .offer-name { font-size: 1.8rem; font-weight: 700; margin-bottom: 14px; cursor: pointer; line-height: 1.2; }
         .offer-prices { margin-bottom: 24px; }
@@ -181,7 +181,7 @@
         .product-card:hover { transform: translateY(-4px); box-shadow: 0 10px 30px rgba(255, 51, 0, 0.3); }
         .product-image { aspect-ratio: 1; background: #0d0400; display: flex; align-items: center; justify-content: center; font-size: 3.5rem; position: relative; overflow: hidden; }
         .product-image img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; object-position: center; display: block; }
-        .product-badge { position: absolute; top: 10px; left: 10px; padding: 5px 12px; border-radius: 20px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; z-index: 2; } left: 10px; padding: 5px 12px; border-radius: 20px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; } @media (max-width: 480px) {
+        .product-badge { position: absolute; top: 10px; left: 10px; padding: 3px 8px; border-radius: 20px; font-size: 0.6rem; font-weight: 700; text-transform: uppercase; z-index: 2; } left: 10px; padding: 5px 12px; border-radius: 20px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; } @media (max-width: 480px) {
     .product-badge {
         font-size: 0.5rem;
         padding: 3px 7px;
@@ -825,6 +825,12 @@ src="https://www.facebook.com/tr?id=1451871843102454&ev=PageView&noscript=1"
     <section id="categorias">
         <div class="section-header reveal"><h2 class="section-title">Explora por categoría</h2></div>
         <div class="categories-grid">
+            <div class="category-card" data-filter="top">
+                <div class="category-bg"></div>
+                <span class="category-emoji">⭐</span>
+                <span class="category-name">Más vendidos</span>
+                <div class="category-overlay"><span class="category-overlay-text">Ver productos →</span></div>
+            </div>
             <div class="category-card" data-filter="vibradores">
                 <div class="category-bg"></div>
                 <span class="category-emoji">🔥</span>
@@ -865,12 +871,6 @@ src="https://www.facebook.com/tr?id=1451871843102454&ev=PageView&noscript=1"
                 <div class="category-bg"></div>
                 <span class="category-emoji">🎁</span>
                 <span class="category-name">Combos y Kits</span>
-                <div class="category-overlay"><span class="category-overlay-text">Ver productos →</span></div>
-            </div>
-            <div class="category-card" data-filter="top">
-                <div class="category-bg"></div>
-                <span class="category-emoji">⭐</span>
-                <span class="category-name">Más vendidos</span>
                 <div class="category-overlay"><span class="category-overlay-text">Ver productos →</span></div>
             </div>
         </div>
@@ -1163,7 +1163,6 @@ src="https://www.facebook.com/tr?id=1451871843102454&ev=PageView&noscript=1"
             { id: 12, sku: "KR-012",    nombre: "Dildo Realista TPE — Talla L",          subtitulo: "El más grande del catálogo, y se nota",           descripcion: "Dildo realista de TPE flexible con textura piel y ventosa en la base. Talla L para quienes quieren más. Compatible con arnés. Fácil de usar y limpiar.",                                                                                                                          categoria: "dildos",         precio: 59.9,  precioTachado: 69.9,  badge: "",        emoji: "💫", imagenes: ["imagenes/Dildo Realista/26.png","imagenes/Dildo Realista/27.png","imagenes/Dildo Realista/28.png"], opciones: [{grupo:"Color", items:["Rosado","Piel"]}] },
             { id: 13, sku: "KR-013",    nombre: "Dildo Realista TPE — Talla M",          subtitulo: "El tamaño perfecto para empezar bien",            descripcion: "Dildo realista de TPE flexible con ventosa en la base. Talla M, textura piel realista, estable en superficies lisas. Fácil de limpiar y guardar de forma discreta.",                                                                                                              categoria: "dildos",         precio: 49.9,  precioTachado: null,  badge: "",        emoji: "💫", imagenes: ["imagenes/Dildo Realista/26.png","imagenes/Dildo Realista/27.png","imagenes/Dildo Realista/28.png"], opciones: [{grupo:"Color", items:["Rosado","Piel"]}] },
             { id: 14, sku: "KR-014",      nombre: "Aceite de Masajes Chandrika 30ml",       subtitulo: "Relaja, calienta y prende el ambiente",           descripcion: "Aceite de masajes aromático de 30ml. Textura suave, absorción rápida y aroma agradable que pone en modo. Ideal para masajes antes o durante. El favorito para empezar la noche.",                                                                                                     categoria: "lubricantes",    precio: 19.9,  precioTachado: null,  badge: "",    emoji: "🌿", imagenes: ["imagenes/Aceites y Lubricantes/Aceites Chandrika.png"], opciones: [{grupo:"Aroma", items:["Vainilla","Mora Vainilla","Lavanda","Orange Mango","Rosas","Romero"]}] },
-            { id: 15, sku: "KR-015",      nombre: "Aceite de Masajes Brana Premium 30ml",   subtitulo: "Para cuando quieres subir el nivel",              descripcion: "Aceite premium de masajes de 30ml. Fórmula enriquecida, textura sedosa y aroma intenso que dura toda la noche. Para una experiencia más sofisticada en pareja.",                                                                                                               categoria: "lubricantes",    precio: 34.9,  precioTachado: null,  badge: "PREMIUM",      emoji: "✨", imagenes: ["imagenes/Aceites y Lubricantes/Aceites Brana.png"], opciones: [{grupo:"Aroma", items:["Calma","Alegría","Rosas"]}], oculto: true },
             { id: 16, sku: "KR-016",      nombre: "Lubricante Five Lube 120ml",             subtitulo: "El lubricante que nunca falla",                   descripcion: "Lubricante íntimo a base de agua de 120ml. Compatible con todos los juguetes y preservativos. Sin fragancia, larga duración. El básico que sí o sí debes tener en casa.",                                                                                                       categoria: "lubricantes",    precio: 22.9,  precioTachado: null,  badge: "",     emoji: "💧", imagenes: ["imagenes/Aceites y Lubricantes/Five Lube.png"] },
             { id: 17, sku: "KR-017",      nombre: "Durex Play Lubricante Sabor Cereza 50g", subtitulo: "Sabe tan bien que dan ganas de repetir",          descripcion: "Lubricante íntimo sabor cereza de Durex. Textura ligera, sabor frutal suave, compatible con preservativos de látex. 50g para tener siempre a la mano. Marca de confianza.",                                                                                                   categoria: "lubricantes",    precio: 21.9,  precioTachado: null,  badge: "",      emoji: "🍒", imagenes: ["imagenes/Aceites y Lubricantes/Durex Play Cereza.png"] },
             { id: 19, sku: "KR-018",      nombre: "Prudence Gel Frutilla Fire 60ml",        subtitulo: "Calienta, sabe a fresa y queda querer más",       descripcion: "Gel lubricante íntimo con efecto calor y sabor a frutilla. Frasco de 60ml, fórmula a base de agua, compatible con preservativos. Hecho en Perú, de confianza.",                                                                                                          categoria: "lubricantes",    precio: 19.9,  precioTachado: null,  badge: "", emoji: "🔥", imagenes: ["imagenes/Aceites y Lubricantes/Prudence Frutilla Fire.png"] },
