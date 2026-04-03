@@ -3,9 +3,11 @@
 <html lang="es"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>KERICO | ¡Qué Rico! Tu placer, al precio justo, con total discreción</title>
-    <meta name="description" content="KERICO - Juguetes íntimos para adultos en Perú. Precios justos, buena calidad y envío 100% discreto. Paga contra entrega, Yape o Transferencia. ¡Que rico!">
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=&#39;http://www.w3.org/2000/svg&#39; viewBox=&#39;0 0 100 100&#39;%3E%3Ctext y=&#39;.9em&#39; font-size=&#39;90&#39; fill=&#39;%23FF3300&#39;%3EK%3C/text%3E%3C/svg%3E">
+    <title>KERICO | Sex Shop Online Perú — Juguetes Sexuales con Envío Discreto</title>
+    <meta name="description" content="Packs para parejas, vibradores y más desde S/. 19.90. El mejor precio del mercado, envío 100% discreto a todo el Perú. Paga contra entrega, Yape o tarjeta. ¡Sin roche, solo placer!">
+    <link rel="icon" type="image/x-icon" href="./favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="./favicon-16x16.png">
     <link href="./imagenes/Combos Y Packs/css2" rel="stylesheet">
     <style>
         :root { --negro: #0A0A0A; --blanco: #FFFFFF; --purpura: #FF3300; --fucsia: #FF8C00; --purpura-suave: #FFCC88; --rosa-neutro: #FFF0D6; --fondo-seccion: #1A0A00; --whatsapp: #25D366; --dorado: #FFD700; }
@@ -29,7 +31,8 @@
         .btn-sm { padding: 10px 20px; font-size: 0.85rem; }
         .btn-lg { padding: 18px 36px; font-size: 1.1rem; }
         
-        #age-verification { position: fixed; inset: 0; background: var(--negro); z-index: 10000; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
+        #age-verification { display: none !important; }
+        #age-verification-original { position: fixed; inset: 0; background: var(--negro); z-index: 10000; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
         .age-gradient-bg { position: absolute; inset: 0; background: radial-gradient(ellipse at 20% 30%, rgba(255, 51, 0, 0.3) 0%, transparent 50%), radial-gradient(ellipse at 80% 70%, rgba(255, 140, 0, 0.2) 0%, transparent 50%); animation: gradientShift 8s ease infinite; background-size: 200% 200%; }
         .age-content { position: relative; z-index: 1; text-align: center; max-width: 500px; animation: fadeInUp 0.6s ease; }
         .age-logo { font-size: 3rem; font-weight: 800; margin-bottom: 40px; letter-spacing: 4px; }
@@ -63,7 +66,7 @@
         .modal-link { color: var(--purpura-suave); font-size: 0.9rem; text-decoration: none; transition: color 0.3s ease; }
         .modal-link:hover { color: var(--fucsia); }
         
-        #welcome-popup .modal-card { max-width: 400px; text-align: center; }
+        #welcome-popup .modal-card { max-width: 400px; text-align: center; overflow: visible; }
         .welcome-icon { font-size: 3rem; margin-bottom: 15px; }
         .welcome-code { background: rgba(255, 51, 0, 0.2); border: 2px dashed var(--purpura); border-radius: 12px; padding: 12px 24px; font-size: 1.4rem; font-weight: 700; letter-spacing: 2px; margin: 20px 0; display: inline-block; color: var(--purpura-suave); }
         .welcome-input { margin: 20px 0; }
@@ -552,7 +555,8 @@ src="https://www.facebook.com/tr?id=1451871843102454&ev=PageView&noscript=1"
 
         <!-- Welcome Popup -->
     <div class="modal-overlay" id="welcome-popup">
-        <div class="modal-card" style="text-align:center;">
+        <div class="modal-card" style="text-align:center;position:relative;">
+            <button onclick="document.getElementById('welcome-popup').style.display='none'" style="position:absolute;top:-10px;right:-10px;background:rgba(255,255,255,0.1);border:none;color:rgba(255,255,255,0.8);font-size:1.2rem;cursor:pointer;line-height:1;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;z-index:10;">✕</button>
             <div class="welcome-icon">🎉</div>
             <h2 class="modal-title">¡Bienvenida a KERICO! 🔥</h2>
             <div style="background:rgba(255,51,0,0.12);border:1px solid rgba(255,80,0,0.3);border-radius:10px;padding:10px 14px;margin:12px 0;font-size:0.82rem;color:rgba(255,200,150,0.95);">
@@ -828,7 +832,7 @@ src="https://www.facebook.com/tr?id=1451871843102454&ev=PageView&noscript=1"
             <button class="slider-arrow next" id="slider-next">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"></path></svg>
             </button>
-            <div class="slider-dots" id="slider-dots"><button class="slider-dot"></button><button class="slider-dot"></button><button class="slider-dot"></button><button class="slider-dot"></button><button class="slider-dot active"></button><button class="slider-dot"></button><button class="slider-dot"></button></div>
+            <div class="slider-dots" id="slider-dots"></div>
         </div>
     </section>
 
