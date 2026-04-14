@@ -53,7 +53,9 @@
         .modal-link { color: var(--purpura-suave); font-size: 0.9rem; text-decoration: none; transition: color 0.3s ease; }
         .modal-link:hover { color: var(--fucsia); }
         
-        #welcome-popup .modal-card { max-width: 400px; text-align: center; }
+        #welcome-popup .modal-card { max-width: 400px; text-align: center; position: relative; }
+        .welcome-close-btn { position: absolute; top: 12px; right: 14px; background: none; border: none; cursor: pointer; color: rgba(255,255,255,0.45); font-size: 1.4rem; line-height: 1; padding: 4px; transition: color 0.2s ease; }
+        .welcome-close-btn:hover { color: var(--blanco); }
         .welcome-icon { font-size: 3rem; margin-bottom: 15px; }
         .welcome-code { background: rgba(255, 51, 0, 0.2); border: 2px dashed var(--purpura); border-radius: 12px; padding: 12px 24px; font-size: 1.4rem; font-weight: 700; letter-spacing: 2px; margin: 20px 0; display: inline-block; color: var(--purpura-suave); }
         .welcome-input { margin: 20px 0; }
@@ -534,6 +536,7 @@ src="https://www.facebook.com/tr?id=1451871843102454&ev=PageView&noscript=1"
         <!-- Welcome Popup -->
     <div class="modal-overlay" id="welcome-popup">
         <div class="modal-card" style="text-align:center;">
+            <button class="welcome-close-btn" id="welcome-close-x" aria-label="Cerrar">&#x2715;</button>
             <div class="welcome-icon">🎉</div>
             <h2 class="modal-title">¡Bienvenida a KERICO! 🔥</h2>
             <div style="background:rgba(255,51,0,0.12);border:1px solid rgba(255,80,0,0.3);border-radius:10px;padding:10px 14px;margin:12px 0;font-size:0.82rem;color:rgba(255,200,150,0.95);">
@@ -1276,15 +1279,20 @@ src="https://www.facebook.com/tr?id=1451871843102454&ev=PageView&noscript=1"
         document.getElementById('close-login').addEventListener('click', () => document.getElementById('login-modal').classList.remove('active'));
         document.getElementById('forgot-password').addEventListener('click', e => { e.preventDefault(); alert(`Contáctanos por WhatsApp: ${WHATSAPP_LINK}`); });
         document.getElementById('welcome-skip').addEventListener('click', e => { e.preventDefault(); document.getElementById('welcome-popup').classList.remove('active'); });
+        document.getElementById('welcome-close-x').addEventListener('click', () => { document.getElementById('welcome-popup').classList.remove('active'); });
         document.getElementById('welcome-claim').addEventListener('click', function() {
             const country = document.getElementById('welcome-country').value;
             const phone = document.getElementById('welcome-phone').value.trim().replace(/\s+/g,'');
             if (!phone) { document.getElementById('welcome-phone').style.borderColor='var(--purpura)'; document.getElementById('welcome-phone').focus(); return; }
             const fullNumber = country + phone;
-            // Guardar número del cliente en localStorage
-            const leads = JSON.parse(localStorage.getItem('kerico_leads') || '[]');
-            leads.push({ numero: fullNumber, fecha: new Date().toISOString() });
-            localStorage.setItem('kerico_leads', JSON.stringify(leads));
+            // Guardar en Google Sheets
+            const SHEET_URL = 'https://script.google.com/macros/s/AKfycbx_omCHTSApJZcL0rUfy9WM0JxhCs7XphjxBujPHYc5vm4RaDReVHMsUjeFhtxdW-UL/exec';
+            fetch(SHEET_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ numero: fullNumber })
+            }).catch(() => {}); // silencioso si falla
             // Abrir WhatsApp de Kerico con mensaje del cliente
             const msg = encodeURIComponent('Kerico seria poder disfrutar un codigo del 10%. Damelo!');
             window.open('https://wa.me/51951707008?text=' + msg, '_blank');
@@ -1637,6 +1645,15 @@ src="https://www.facebook.com/tr?id=1451871843102454&ev=PageView&noscript=1"
             if (referencia) mensaje += `Referencia: ${referencia}\n`;
             if (nota) mensaje += `Nota: ${nota}\n`;
             window.open(`${WHATSAPP_LINK}?text=${encodeURIComponent(mensaje)}`, '_blank');
+            // Guardar email del cliente en Google Sheets
+            const emailCheckout = document.getElementById('checkout-email').value.trim();
+            const SHEET_URL = 'https://script.google.com/macros/s/AKfycbx_omCHTSApJZcL0rUfy9WM0JxhCs7XphjxBujPHYc5vm4RaDReVHMsUjeFhtxdW-UL/exec';
+            fetch(SHEET_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ tipo: 'pedido', nombre: nombre, telefono: telefono, email: emailCheckout })
+            }).catch(() => {});
             carrito = [];
             guardarCarrito();
             updateCartUI();
