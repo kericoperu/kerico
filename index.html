@@ -182,7 +182,7 @@ button { font-family:'Poppins', sans-serif; cursor:pointer; }
 @media (max-width:379px){ .products-grid{ grid-template-columns:1fr; } }
 @media (min-width:640px){ .products-grid{ grid-template-columns:repeat(3,1fr); gap:20px; } }
 @media (min-width:980px){ .products-grid{ grid-template-columns:repeat(4,1fr); } }
-.product-card{ background:var(--fondo-seccion); border:1px solid var(--borde); border-radius:18px; overflow:hidden; display:flex; flex-direction:column; }
+.product-card{ background:var(--fondo-seccion); border:1px solid var(--borde); border-radius:18px; overflow:hidden; display:flex; flex-direction:column; cursor:pointer; }
 .product-image{ position:relative; aspect-ratio:1/1; background:#150800; }
 .product-image img{ width:100%; height:100%; object-fit:cover; }
 .product-badge{ position:absolute; top:10px; left:10px; background:linear-gradient(135deg,var(--purpura),var(--fucsia)); font-size:0.62rem; font-weight:800; padding:5px 10px; border-radius:50px; letter-spacing:0.4px; }
@@ -231,6 +231,7 @@ button { font-family:'Poppins', sans-serif; cursor:pointer; }
 @media (min-width:480px){ .quiz-result-grid{ grid-template-columns:repeat(2,1fr); } }
 @media (min-width:760px){ .quiz-result-grid{ grid-template-columns:repeat(3,1fr); } }
 .quiz-result-item{ background:rgba(255,255,255,0.04); border-radius:12px; padding:8px; text-align:center; }
+.quiz-result-trigger{ cursor:pointer; }
 .quiz-result-item img{ width:100%; aspect-ratio:1/1; object-fit:cover; border-radius:8px; margin-bottom:6px; }
 .quiz-result-item p{ font-size:0.66rem; line-height:1.3; }
 .quiz-disclaimer{ font-size:0.7rem; color:var(--texto-tenue2); text-align:center; margin-bottom:16px; }
@@ -314,6 +315,40 @@ footer{ padding:44px 0 100px; border-top:1px solid var(--borde); }
 #fab-whatsapp svg{ width:26px; height:26px; color:var(--blanco); }
 @media (min-width:900px){ #fab-whatsapp{ bottom:24px; } }
 
+/* Product detail popup */
+#product-modal{ position:fixed; inset:0; background:rgba(0,0,0,0.85); backdrop-filter:blur(6px); z-index:950; display:flex; align-items:center; justify-content:center; padding:16px; opacity:0; pointer-events:none; transition:opacity .25s ease; }
+#product-modal.active{ opacity:1; pointer-events:all; }
+#product-modal[hidden]{ display:none !important; }
+.pm-card{ background:var(--fondo-seccion); border:1px solid var(--borde); border-radius:20px; width:100%; max-width:480px; max-height:90vh; overflow-y:auto; position:relative; }
+.pm-close{ position:absolute; top:12px; right:12px; background:rgba(0,0,0,0.6); border:none; color:var(--blanco); width:34px; height:34px; border-radius:50%; font-size:1.2rem; z-index:5; }
+.pm-hero{ position:relative; aspect-ratio:1/1; background:#150800; overflow:hidden; border-radius:20px 20px 0 0; }
+.pm-img-track{ display:flex; height:100%; transition:transform .3s ease; }
+.pm-img-slide{ min-width:100%; height:100%; }
+.pm-img-slide img{ width:100%; height:100%; object-fit:cover; }
+.pm-img-prev, .pm-img-next{ position:absolute; top:50%; transform:translateY(-50%); background:rgba(0,0,0,0.55); border:none; color:var(--blanco); width:34px; height:34px; border-radius:50%; font-size:1.3rem; display:flex; align-items:center; justify-content:center; }
+.pm-img-prev{ left:10px; } .pm-img-next{ right:10px; }
+.pm-img-dots{ position:absolute; bottom:10px; left:0; right:0; display:flex; justify-content:center; gap:6px; }
+.pm-img-dot{ width:7px; height:7px; border-radius:50%; background:rgba(255,255,255,0.35); border:none; padding:0; }
+.pm-img-dot.active{ background:var(--blanco); }
+.pm-badge{ position:absolute; top:12px; left:12px; background:linear-gradient(135deg,var(--purpura),var(--fucsia)); font-size:0.68rem; font-weight:800; padding:5px 12px; border-radius:50px; }
+.pm-body{ padding:22px; }
+.pm-name{ font-size:1.25rem; font-weight:800; margin-bottom:8px; }
+.pm-desc{ font-size:0.88rem; color:var(--texto-tenue); margin-bottom:16px; }
+.pm-specs-title{ font-size:0.72rem; text-transform:uppercase; letter-spacing:1px; color:var(--texto-tenue2); margin-bottom:8px; }
+.pm-specs{ display:grid; gap:6px; margin-bottom:18px; }
+.pm-spec-row{ display:flex; justify-content:space-between; gap:10px; font-size:0.8rem; padding:7px 10px; background:rgba(255,255,255,0.04); border-radius:8px; }
+.pm-spec-label{ color:var(--texto-tenue2); }
+.pm-spec-value{ color:var(--blanco); text-align:right; font-weight:600; }
+.pm-price-block{ display:flex; align-items:baseline; gap:10px; margin-bottom:18px; }
+.pm-price-block .price-old{ text-decoration:line-through; color:var(--texto-tenue2); font-size:1rem; }
+.pm-price-block .price-new{ font-size:1.5rem; font-weight:800; color:var(--purpura-suave); }
+.pm-opciones{ margin-bottom:18px; }
+.pm-opcion-grupo{ margin-bottom:12px; }
+.pm-opcion-grupo-label{ display:block; font-size:0.78rem; font-weight:700; color:var(--texto-tenue); margin-bottom:8px; }
+.pm-opcion-btns{ display:flex; flex-wrap:wrap; gap:8px; }
+.pm-opcion-btn{ background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.15); color:var(--blanco); padding:8px 14px; border-radius:50px; font-size:0.78rem; font-weight:600; }
+.pm-opcion-btn.active{ background:linear-gradient(135deg,var(--purpura),var(--fucsia)); border-color:transparent; }
+
 .hidden{ display:none !important; }
 
 </style>
@@ -396,8 +431,8 @@ footer{ padding:44px 0 100px; border-top:1px solid var(--borde); }
       <div class="hero-trust-mini">
         <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg><span id="hero-trust-precio">Desde S/.19.90</span></span>
         <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="8" width="15" height="12" rx="2"/><path d="M16 8V6a3 3 0 0 0-3-3H8a3 3 0 0 0-3 3v2"/></svg>Empaque discreto</span>
-        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>Contraentrega en Lima</span>
-        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5v14"/></svg>Envíos a todo el Perú</span>
+        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>Contra entrega</span>
+        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 6h11v11H3z"/><path d="M14 10h4l3 3v4h-7z"/><circle cx="7" cy="18" r="2"/><circle cx="18" cy="18" r="2"/></svg>Envíos a todo el Perú</span>
       </div>
     </div>
 
@@ -423,8 +458,8 @@ footer{ padding:44px 0 100px; border-top:1px solid var(--borde); }
   <div class="container trust-grid">
     <div class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg><span id="trust-precio">Desde S/.19.90</span></div>
     <div class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="8" width="15" height="12" rx="2"/><path d="M16 8V6a3 3 0 0 0-3-3H8a3 3 0 0 0-3 3v2"/></svg><span>Empaque totalmente discreto</span></div>
-    <div class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg><span>Contraentrega en Lima</span></div>
-    <div class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M12 5v14"/></svg><span>Envíos a todo el Perú</span></div>
+    <div class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg><span>Contra entrega</span></div>
+    <div class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 6h11v11H3z"/><path d="M14 10h4l3 3v4h-7z"/><circle cx="7" cy="18" r="2"/><circle cx="18" cy="18" r="2"/></svg><span>Envíos a todo el Perú</span></div>
   </div>
 </section>
 
@@ -519,7 +554,7 @@ footer{ padding:44px 0 100px; border-top:1px solid var(--borde); }
       <div class="step-card"><div class="step-num">1</div><p><strong>Elige</strong> un producto o explora el catálogo.</p></div>
       <div class="step-card"><div class="step-num">2</div><p><strong>Completa</strong> tus datos y solicita tu reserva.</p></div>
       <div class="step-card"><div class="step-num">3</div><p><strong>Envía</strong> el mensaje preparado por WhatsApp.</p></div>
-      <div class="step-card"><div class="step-num">4</div><p id="step4-text">Desde el <strong>16 de agosto</strong> confirmamos tu producto, aplicamos el descuento y coordinamos el pago. El despacho comienza después de confirmar el pago.</p></div>
+      <div class="step-card"><div class="step-num">4</div><p id="step4-text">Desde el <strong>16 de agosto</strong> confirmamos tu producto, aplicamos el descuento y coordinamos el pago. El despacho comienza desde el <strong>17 de agosto</strong>, después de confirmar tu pago.</p></div>
     </div>
     <p style="text-align:center;color:var(--texto-tenue);font-size:0.85rem;margin-top:26px;">Reservar no requiere pago y puedes cancelar antes de completar la compra.</p>
   </div>
@@ -550,7 +585,7 @@ footer{ padding:44px 0 100px; border-top:1px solid var(--borde); }
     </div>
     <div class="info-grid info-grid-4">
       <div class="info-card"><h3>💛 Yape / Plin</h3><p>Pago directo por Yape, Plin o transferencia bancaria.</p></div>
-      <div class="info-card"><h3>📍 Contraentrega Lima</h3><p>Los pedidos realizados temprano pueden entregarse el mismo día, según distrito, horario y disponibilidad. El delivery se paga al repartidor, desde S/10 hasta S/20 según ubicación.</p></div>
+      <div class="info-card"><h3>📍 Contra entrega</h3><p>Tu pedido llegará en 1 día hábil y podrás pagar al recibirlo.</p></div>
       <div class="info-card"><h3>📦 Provincias</h3><p>Enviamos desde Lima mediante Shalom u Olva. Tiempo estimado: 1 a 3 días hábiles según ciudad y empresa de transporte.</p></div>
       <div class="info-card"><h3>🎁 Envío gratis</h3><p>Envío gratuito en compras desde S/150 (aplica según cobertura vigente — te lo confirmamos por WhatsApp).</p></div>
     </div>
@@ -694,9 +729,28 @@ footer{ padding:44px 0 100px; border-top:1px solid var(--borde); }
 
     <div id="reserva-confirmation-view" class="hidden">
       <h3 id="reserva-confirmation-title" tabindex="-1">¡Recibimos tu solicitud!</h3>
-      <p>También recibirás un correo automático confirmando que recibimos tus datos. Para completar el proceso, envía ahora el mensaje preparado por WhatsApp.</p>
+      <p>Revisa tu correo y confirma ahora por WhatsApp.</p>
       <a class="btn btn-whatsapp btn-block" id="confirm-whatsapp-btn" target="_blank" rel="noopener" style="margin-top:6px;">Confirmar por WhatsApp</a>
       <p style="font-size:0.75rem;color:var(--texto-tenue2);margin-top:14px;">Tu beneficio quedará confirmado cuando el equipo de KERICO valide que todavía existe un cupo disponible.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ========== PRODUCT DETAIL POPUP ========== -->
+<div id="product-modal" aria-hidden="true" hidden>
+  <div class="pm-card" role="dialog" aria-modal="true" aria-labelledby="pm-name">
+    <button class="pm-close" id="pm-close" aria-label="Cerrar">×</button>
+    <div class="pm-hero" id="pm-hero-wrap"></div>
+    <div class="pm-body">
+      <h2 class="pm-name" id="pm-name" tabindex="-1"></h2>
+      <p class="pm-desc" id="pm-desc"></p>
+      <div id="pm-specs-wrap" hidden>
+        <p class="pm-specs-title">Características</p>
+        <div class="pm-specs" id="pm-specs"></div>
+      </div>
+      <div class="pm-price-block" id="pm-price-block"></div>
+      <div class="pm-opciones" id="pm-opciones"></div>
+      <button class="btn btn-primary btn-block" id="pm-reservar">Reservar este producto</button>
     </div>
   </div>
 </div>
@@ -739,7 +793,7 @@ const CONFIG = {
   // Vacíos a propósito: mientras no tengan un valor real, no se muestran en la página.
   razonSocial: "",
   ruc: "",
-  facebook: "",
+  facebook: "https://www.facebook.com/share1HXuo1TvB8/?mibextid=wwXlfr",
 
   totalPreventa: 20,
   cuposDisponibles: 20, // <-- ACTUALIZAR MANUALMENTE. En 0, la página pasa sola a "Preventa agotada".
@@ -761,7 +815,7 @@ const TESTIMONIOS = []; // Vacío = la sección de testimonios no se muestra.
 // ---------------------------------------------------------------------
 // 2. DATOS DE PRODUCTOS
 // ---------------------------------------------------------------------
-const PRODUCTOS = [{"id": 1, "nombre": "Bala Vibradora de Silicona", "categoria": "vibradores", "pareja": false, "precio": 39.9, "precioTachado": null, "badge": "RECARGABLE", "emoji": "🔥", "imagen": "imagenes/Vibrador Bala/1.png", "destacado": true, "subtitulo": "Pequeña y discreta, en silicona suave", "caracteristicas": ["Recargable", "Silicona suave", "10 modos de vibración"]}, {"id": 2, "nombre": "Varita Masajeadora 20 Modos", "categoria": "vibradores", "pareja": false, "precio": 49.9, "precioTachado": 59.9, "badge": "20 MODOS", "emoji": "⚡", "imagen": "imagenes/Varita Masajeadora/5.png", "destacado": true, "subtitulo": "Cabezal flexible, apta para todo el cuerpo", "caracteristicas": ["Recargable", "100% impermeable", "20 modos / 8 velocidades"]}, {"id": 3, "nombre": "Vibrador Rabbit Doble Motor", "categoria": "vibradores", "pareja": false, "precio": 69.9, "precioTachado": 89.9, "badge": "DOBLE MOTOR", "emoji": "🐰", "imagen": "imagenes/Vibrador Doble Motor/14.png", "destacado": false, "subtitulo": "Estimulación interna y externa simultánea", "caracteristicas": ["100% impermeable"]}, {"id": 4, "nombre": "Succionador Silencioso 5 Modos", "categoria": "succionadores", "pareja": false, "precio": 69.9, "precioTachado": 79.9, "badge": "IMPERMEABLE", "emoji": "✨", "imagen": "imagenes/Succionador/10.png", "destacado": true, "subtitulo": "Tecnología de onda de presión, motor silencioso", "caracteristicas": ["Recargable", "100% impermeable", "Motor silencioso"]}, {"id": 5, "nombre": "Huevo Vibrador Control Remoto", "categoria": "vibradores", "pareja": true, "precio": 54.9, "precioTachado": null, "badge": "CONTROL REMOTO", "emoji": "🥚", "imagen": "imagenes/Huevo Vibrador/12.png", "destacado": true, "subtitulo": "Control remoto inalámbrico de largo alcance", "caracteristicas": ["Recargable", "Control remoto de largo alcance", "12 modos"]}, {"id": 6, "nombre": "Vibrador Rabbit con Empuje", "categoria": "vibradores", "pareja": false, "precio": 99.9, "precioTachado": 119.9, "badge": "", "emoji": "🌟", "imagen": "imagenes/Vibrador Rabbit con Empuje/8.png", "destacado": true, "subtitulo": "Movimiento de empuje más vibración dual", "caracteristicas": ["Silicona + ABS", "Empuje + vibración dual", "10 modos de cada función"]}, {"id": 7, "nombre": "Vibrador 3 en 1 G-Spot", "categoria": "vibradores", "pareja": false, "precio": 129.9, "precioTachado": 149.9, "badge": "RECARGABLE", "emoji": "👑", "imagen": "imagenes/Vibrador 3 en 1/16.png", "destacado": false, "subtitulo": "Vibración, aleteo y estimulación de punto G", "caracteristicas": ["Recargable", "Silicona médica"]}, {"id": 8, "nombre": "Bolas Vaginales con App Bluetooth", "categoria": "vibradores", "pareja": true, "precio": 79.9, "precioTachado": 99.9, "badge": "CONTROL POR APP", "emoji": "📱", "imagen": "imagenes/Bolas con App/19.png", "destacado": true, "subtitulo": "Control desde el celular vía Bluetooth", "caracteristicas": ["Control por app", "Bluetooth", "Motor silencioso"]}, {"id": 9, "nombre": "Plug Anal con Control Remoto", "categoria": "plugs-anales", "pareja": true, "precio": 69.9, "precioTachado": 89.9, "badge": "CONTROL REMOTO", "emoji": "🌸", "imagen": "imagenes/Plug con Control Remoto/22.png", "destacado": false, "subtitulo": "Control remoto inalámbrico, 100% impermeable", "caracteristicas": ["Control remoto", "100% impermeable"]}, {"id": 10, "nombre": "Plug Anal Joya de Acero — Talla M", "categoria": "plugs-anales", "pareja": false, "precio": 39.9, "precioTachado": 49.9, "badge": "TALLA M", "emoji": "💎", "imagen": "imagenes/Plug/24.png", "destacado": false, "subtitulo": "Acero inoxidable con joya decorativa en la base", "caracteristicas": []}, {"id": 11, "nombre": "Plug Anal Joya de Acero — Talla S", "categoria": "plugs-anales", "pareja": false, "precio": 29.9, "precioTachado": null, "badge": "PARA COMENZAR", "emoji": "💎", "imagen": "imagenes/Plug/24.png", "destacado": false, "subtitulo": "Talla S, ideal para comenzar", "caracteristicas": []}, {"id": 12, "nombre": "Dildo Realista TPE — Talla L", "categoria": "dildos", "pareja": false, "precio": 59.9, "precioTachado": 69.9, "badge": "TALLA L", "emoji": "💫", "imagen": "imagenes/Dildo Realista/26.png", "destacado": false, "subtitulo": "TPE flexible con ventosa en la base", "caracteristicas": []}, {"id": 13, "nombre": "Dildo Realista TPE — Talla M", "categoria": "dildos", "pareja": false, "precio": 49.9, "precioTachado": null, "badge": "TALLA M", "emoji": "💫", "imagen": "imagenes/Dildo Realista/26.png", "destacado": false, "subtitulo": "TPE flexible con ventosa en la base", "caracteristicas": []}, {"id": 14, "nombre": "Aceite de Masajes Chandrika 30ml", "categoria": "lubricantes", "pareja": false, "precio": 19.9, "precioTachado": null, "badge": "", "emoji": "🌿", "imagen": "imagenes/Aceites y Lubricantes/Aceites Chandrika.png", "destacado": true, "subtitulo": "Aceite de masajes aromático, absorción rápida", "caracteristicas": ["Aroma relajante", "Absorción rápida", "30ml"]}, {"id": 17, "nombre": "Durex Play Lubricante Sabor Cereza 50g", "categoria": "lubricantes", "pareja": false, "precio": 21.9, "precioTachado": null, "badge": "", "emoji": "🍒", "imagen": "imagenes/Aceites y Lubricantes/Durex Play Cereza.png", "destacado": false, "subtitulo": "Sabor cereza, compatible con látex", "caracteristicas": []}, {"id": 21, "nombre": "Analube Dilatador 100ml", "categoria": "lubricantes", "pareja": true, "precio": 59.9, "precioTachado": 69.9, "badge": "", "emoji": "💙", "imagen": "imagenes/Aceites y Lubricantes/Anal Lube.png", "destacado": false, "subtitulo": "Fórmula espesa de larga duración para uso anal", "caracteristicas": []}, {"id": 22, "nombre": "Hot Lub Lubricante 4 en 1", "categoria": "lubricantes", "pareja": false, "precio": 54.9, "precioTachado": 64.9, "badge": "", "emoji": "🌡️", "imagen": "imagenes/Aceites y Lubricantes/Hot Lub.png", "destacado": false, "subtitulo": "Efecto calor activado al contacto", "caracteristicas": []}, {"id": 24, "nombre": "Combo Que Rico Empieza", "categoria": "combos", "pareja": true, "precio": 54.9, "precioTachado": 62.8, "badge": "COMBO", "emoji": "🎉", "imagen": "imagenes/Combos Y Packs/Que Rico empieza.png", "destacado": true, "subtitulo": "Bala vibradora + lubricante", "caracteristicas": ["Bala vibradora + lubricante"]}, {"id": 25, "nombre": "Combo Noche Completa", "categoria": "combos", "pareja": true, "precio": 69.9, "precioTachado": 79.9, "badge": "COMBO", "emoji": "🌙", "imagen": "imagenes/Combos Y Packs/Combo Noche Completa.png", "destacado": false, "subtitulo": "Varita masajeadora + aceite de masajes", "caracteristicas": []}, {"id": 28, "nombre": "Combo Control Total Anal", "categoria": "combos", "pareja": true, "precio": 109.9, "precioTachado": 159.8, "badge": "COMBO", "emoji": "🌸", "imagen": "imagenes/Combos Y Packs/Combo Control Total.png", "destacado": false, "subtitulo": "Plug con control remoto + Analube", "caracteristicas": []}, {"id": 32, "nombre": "Combo Primera Vez Kerico", "categoria": "combos", "pareja": true, "precio": 49.9, "precioTachado": 59.9, "badge": "COMBO", "emoji": "🌸", "imagen": "imagenes/Combos Y Packs/Combo Primera Vez.png", "destacado": false, "subtitulo": "Bala vibradora + aceite de masajes", "caracteristicas": []}, {"id": 34, "nombre": "Combo Sucker Experience", "categoria": "combos", "pareja": true, "precio": 79.9, "precioTachado": 102.8, "badge": "COMBO", "emoji": "✨", "imagen": "imagenes/Combos Y Packs/Combo Sucker Experience.png", "destacado": false, "subtitulo": "Succionador silencioso + lubricante", "caracteristicas": []}];
+const PRODUCTOS = [{"id": 1, "nombre": "Bala Vibradora de Silicona", "categoria": "vibradores", "pareja": false, "precio": 39.9, "precioTachado": null, "badge": "RECARGABLE", "emoji": "🔥", "imagen": "imagenes/Vibrador Bala/1.png", "destacado": true, "subtitulo": "Pequeña y discreta, en silicona suave", "caracteristicas": ["Recargable", "Silicona suave", "10 modos de vibración"], "descripcion": "Vibrador de bala recargable en silicona suave al tacto. 10 modos de vibración, tamaño discreto y potencia sorprendente. Perfecta para empezar o para llevar a cualquier parte.", "imagenes": ["imagenes/Vibrador Bala/1.png", "imagenes/Vibrador Bala/2.png", "imagenes/Vibrador Bala/3.png", "imagenes/Vibrador Bala/4.png"], "opciones": [{"grupo": "Color", "items": ["Negro", "Rosado"]}], "specs": [["Modos", "10 velocidades"], ["Tipo de batería", "Pilas AAA"], ["Ruido", "Menos de 40 dB"]]}, {"id": 2, "nombre": "Varita Masajeadora 20 Modos", "categoria": "vibradores", "pareja": false, "precio": 54.9, "precioTachado": 65.9, "badge": "20 MODOS", "emoji": "⚡", "imagen": "imagenes/Varita Masajeadora/5.png", "destacado": true, "subtitulo": "Cabezal flexible, apta para todo el cuerpo", "caracteristicas": ["Recargable", "100% impermeable", "20 modos / 8 velocidades"], "descripcion": "Masajeador tipo wand con 20 modos y 8 velocidades. Cabezal flexible que se adapta a cualquier zona. Recargable, 100% impermeable y apto para todo el cuerpo.", "imagenes": ["imagenes/Varita Masajeadora/5.png", "imagenes/Varita Masajeadora/6.png", "imagenes/Varita Masajeadora/7.png"], "opciones": [{"grupo": "Color", "items": ["Negro", "Rosado", "Morado"]}], "specs": [["Material", "Silicona + ABS"], ["Modos", "8 velocidades + 20 Modos"], ["Carga", "USB · 300 mAh"], ["Duración", "1 a 2 horas"], ["Resistencia", "Impermeable"], ["Certificaciones", "CE, ROHS, FDA"]]}, {"id": 3, "nombre": "Vibrador Rabbit Doble Motor", "categoria": "vibradores", "pareja": false, "precio": 76.9, "precioTachado": 98.9, "badge": "DOBLE MOTOR", "emoji": "🐰", "imagen": "imagenes/Vibrador Doble Motor/14.png", "destacado": false, "subtitulo": "Estimulación interna y externa simultánea", "caracteristicas": ["100% impermeable"], "descripcion": "Vibrador rabbit con dos motores independientes para estimulación interna y externa al mismo tiempo. 100% impermeable, silicona premium suave. Para ella, por ella.", "imagenes": ["imagenes/Vibrador Doble Motor/14.png", "imagenes/Vibrador Doble Motor/15.png"], "opciones": [{"grupo": "Color", "items": ["Rosado"]}], "specs": [["Material", "Silicona + ABS"], ["Resistencia", "IPX4 impermeable"], ["Ruido", "Menos de 50 dB"], ["Batería", "Pilas"]]}, {"id": 4, "nombre": "Succionador Silencioso 5 Modos", "categoria": "succionadores", "pareja": false, "precio": 76.9, "precioTachado": 87.9, "badge": "IMPERMEABLE", "emoji": "✨", "imagen": "imagenes/Succionador/10.png", "destacado": true, "subtitulo": "Tecnología de onda de presión, motor silencioso", "caracteristicas": ["Recargable", "100% impermeable", "Motor silencioso"], "descripcion": "Succionador con tecnología de onda de presión y motor ultra silencioso. 5 frecuencias, recargable y 100% impermeable. Sin ruido, sin preocupaciones, solo placer.", "imagenes": ["imagenes/Succionador/10.png", "imagenes/Succionador/11.png"], "opciones": [{"grupo": "Color", "items": ["Piel"]}], "specs": [["Función", "Succión"], ["Modos", "5 frecuencias"], ["Carga", "USB · 220 mAh"], ["Resistencia", "100% impermeable"], ["Peso", "91 g / 112 g"]]}, {"id": 5, "nombre": "Huevo Vibrador Control Remoto", "categoria": "vibradores", "pareja": true, "precio": 54.9, "precioTachado": null, "badge": "CONTROL REMOTO", "emoji": "🥚", "imagen": "imagenes/Huevo Vibrador/12.png", "destacado": true, "subtitulo": "Control remoto inalámbrico de largo alcance", "caracteristicas": ["Recargable", "Control remoto de largo alcance", "12 modos"], "descripcion": "Huevo vibrador inalámbrico con control remoto de largo alcance. 12 modos de vibración, discreto y recargable. Ideal para juego en pareja dentro o fuera de casa.", "imagenes": ["imagenes/Huevo Vibrador/12.png", "imagenes/Huevo Vibrador/13.png"], "opciones": [{"grupo": "Color", "items": ["Rosado"]}], "specs": [["Material", "Silicona + ABS"], ["Funciones", "Vibración + control remoto"], ["Resistencia", "IPX4 impermeable"], ["Ruido", "Menos de 50 dB"], ["Voltaje", "3.7 V"]]}, {"id": 6, "nombre": "Vibrador Rabbit con Empuje", "categoria": "vibradores", "pareja": false, "precio": 109.9, "precioTachado": 131.9, "badge": "", "emoji": "🌟", "imagen": "imagenes/Vibrador Rabbit con Empuje/8.png", "destacado": true, "subtitulo": "Movimiento de empuje más vibración dual", "caracteristicas": ["Silicona + ABS", "Empuje + vibración dual", "10 modos de cada función"], "descripcion": "Vibrador rabbit con movimiento de empuje + vibración dual. 10 modos de empuje y 10 de vibración. Silicona + ABS de calidad. El juguete más completo del catálogo para ella.", "imagenes": ["imagenes/Vibrador Rabbit con Empuje/8.png", "imagenes/Vibrador Rabbit con Empuje/9.png"], "opciones": [{"grupo": "Color", "items": ["Rosado"]}], "specs": [["Material", "Silicona + ABS"], ["Funciones", "Empuje + vibración"], ["Modos", "10 velocidades"], ["Resistencia", "IPX4 impermeable"]]}, {"id": 7, "nombre": "Vibrador 3 en 1 G-Spot", "categoria": "vibradores", "pareja": false, "precio": 142.9, "precioTachado": 164.9, "badge": "RECARGABLE", "emoji": "👑", "imagen": "imagenes/Vibrador 3 en 1/16.png", "destacado": false, "subtitulo": "Vibración, aleteo y estimulación de punto G", "caracteristicas": ["Recargable", "Silicona médica"], "descripcion": "Estimulador triple con vibración, aleteo y estimulación de punto G. Triple motor, silicona médica, recargable.", "imagenes": ["imagenes/Vibrador 3 en 1/16.png", "imagenes/Vibrador 3 en 1/17.png", "imagenes/Vibrador 3 en 1/18.png"], "opciones": [{"grupo": "Color", "items": ["Rojo"]}], "specs": [["Material", "Silicona + ABS"], ["Funciones", "7 frec. aleteo + 7 frec. vibración + 5 frec. lengüeta"], ["Carga", "USB recargable"]]}, {"id": 8, "nombre": "Bolas Vaginales con App Bluetooth", "categoria": "vibradores", "pareja": true, "precio": 87.9, "precioTachado": 109.9, "badge": "CONTROL POR APP", "emoji": "📱", "imagen": "imagenes/Bolas con App/19.png", "destacado": true, "subtitulo": "Control desde el celular vía Bluetooth", "caracteristicas": ["Control por app", "Bluetooth", "Motor silencioso"], "descripcion": "Bolas vaginales wearable controladas por app desde el celular. Conecta vía Bluetooth, 10 patrones de vibración, motor silencioso. Para usarlas sola o dejar el control a tu pareja.", "imagenes": ["imagenes/Bolas con App/19.png", "imagenes/Bolas con App/20.png", "imagenes/Bolas con App/21.png"], "opciones": [{"grupo": "Color", "items": ["Rosado"]}], "specs": [["Material", "Silicona"], ["Conectividad", "App inteligente + control remoto"], ["Dimensiones", "180 × 73 × 37 mm"], ["Carga", "USB recargable"]]}, {"id": 9, "nombre": "Plug Anal con Control Remoto", "categoria": "plugs-anales", "pareja": true, "precio": 76.9, "precioTachado": 98.9, "badge": "CONTROL REMOTO", "emoji": "🌸", "imagen": "imagenes/Plug con Control Remoto/22.png", "destacado": false, "subtitulo": "Control remoto inalámbrico, 100% impermeable", "caracteristicas": ["Control remoto", "100% impermeable"], "descripcion": "Plug anal recargable con control remoto inalámbrico. 10 modos de vibración, 100% impermeable. Para quienes ya exploraron y quieren subir el nivel con su pareja.", "imagenes": ["imagenes/Plug con Control Remoto/22.png", "imagenes/Plug con Control Remoto/23.png"], "opciones": [{"grupo": "Color", "items": ["Negro"]}], "specs": [["Dimensiones", "9 × 3.5 × 3.5 cm"], ["Color", "Negro"]]}, {"id": 10, "nombre": "Plug Anal Joya de Acero — Talla M", "categoria": "plugs-anales", "pareja": false, "precio": 43.9, "precioTachado": 54.9, "badge": "TALLA M", "emoji": "💎", "imagen": "imagenes/Plug/24.png", "destacado": false, "subtitulo": "Acero inoxidable con joya decorativa en la base", "caracteristicas": [], "descripcion": "Plug de acero inoxidable con joya decorativa en la base. Talla M, superficie lisa, peso natural que se siente rico. Fácil de limpiar y dura toda la vida.", "imagenes": ["imagenes/Plug/24.png", "imagenes/Plug/25.png"], "opciones": [], "specs": [["Material", "Acero inoxidable"], ["Forma", "Joya corazón"], ["Talla M", "8.3 × 3.38 cm"]]}, {"id": 11, "nombre": "Plug Anal Joya de Acero — Talla S", "categoria": "plugs-anales", "pareja": false, "precio": 29.9, "precioTachado": null, "badge": "PARA COMENZAR", "emoji": "💎", "imagen": "imagenes/Plug/24.png", "destacado": false, "subtitulo": "Talla S, ideal para comenzar", "caracteristicas": [], "descripcion": "Plug de acero inoxidable con joya en la base. Talla S ideal para comenzar. Superficie lisa, peso natural placentero, superfácil de limpiar. El clásico del catálogo.", "imagenes": ["imagenes/Plug/24.png", "imagenes/Plug/25.png"], "opciones": [], "specs": [["Material", "Acero inoxidable"], ["Forma", "Joya corazón"], ["Talla S", "6.9 × 2.68 cm"]]}, {"id": 12, "nombre": "Dildo Realista TPE — Talla L", "categoria": "dildos", "pareja": false, "precio": 65.9, "precioTachado": 76.9, "badge": "TALLA L", "emoji": "💫", "imagen": "imagenes/Dildo Realista/26.png", "destacado": false, "subtitulo": "TPE flexible con ventosa en la base", "caracteristicas": [], "descripcion": "Dildo realista de TPE flexible con textura piel y ventosa en la base. Talla L para quienes quieren más. Compatible con arnés. Fácil de usar y limpiar.", "imagenes": ["imagenes/Dildo Realista/26.png", "imagenes/Dildo Realista/27.png", "imagenes/Dildo Realista/28.png"], "opciones": [{"grupo": "Color", "items": ["Rosado", "Piel"]}], "specs": [["Material", "TPE flexible"], ["Dimensiones", "20 × 16.5 × 4.5 cm"], ["Base", "Ventosa incluida"], ["Uso", "Compatible con arnés"]]}, {"id": 13, "nombre": "Dildo Realista TPE — Talla M", "categoria": "dildos", "pareja": false, "precio": 49.9, "precioTachado": null, "badge": "TALLA M", "emoji": "💫", "imagen": "imagenes/Dildo Realista/26.png", "destacado": false, "subtitulo": "TPE flexible con ventosa en la base", "caracteristicas": [], "descripcion": "Dildo realista de TPE flexible con ventosa en la base. Talla M, textura piel realista, estable en superficies lisas. Fácil de limpiar y guardar de forma discreta.", "imagenes": ["imagenes/Dildo Realista/26.png", "imagenes/Dildo Realista/27.png", "imagenes/Dildo Realista/28.png"], "opciones": [{"grupo": "Color", "items": ["Rosado", "Piel"]}], "specs": [["Material", "TPE flexible"], ["Dimensiones", "18.5 × 14 × 3.8 cm"], ["Base", "Ventosa incluida"], ["Limpieza", "Fácil"]]}, {"id": 14, "nombre": "Aceite de Masajes Chandrika 30ml", "categoria": "lubricantes", "pareja": false, "precio": 19.9, "precioTachado": null, "badge": "", "emoji": "🌿", "imagen": "imagenes/Aceites y Lubricantes/Aceites Chandrika.png", "destacado": true, "subtitulo": "Aceite de masajes aromático, absorción rápida", "caracteristicas": ["Aroma relajante", "Absorción rápida", "30ml"], "descripcion": "Aceite de masajes aromático de 30ml. Textura suave, absorción rápida y aroma agradable que pone en modo. Ideal para masajes antes o durante.", "imagenes": ["imagenes/Aceites y Lubricantes/Aceites Chandrika.png"], "opciones": [{"grupo": "Aroma", "items": ["Vainilla", "Mora Vainilla", "Lavanda", "Orange Mango", "Rosas", "Romero"]}], "specs": [["Contenido", "30 ml"], ["Tipo", "Aceite aromático"], ["Textura", "Suave, absorción rápida"], ["Uso", "Masajes corporales"]]}, {"id": 21, "nombre": "Analube Dilatador 100ml", "categoria": "lubricantes", "pareja": true, "precio": 65.9, "precioTachado": 76.9, "badge": "", "emoji": "💙", "imagen": "imagenes/Aceites y Lubricantes/Anal Lube.png", "destacado": false, "subtitulo": "Fórmula espesa de larga duración para uso anal", "caracteristicas": [], "descripcion": "Lubricante anal especializado de 100ml con efecto relajante. Fórmula espesa de larga duración, base agua, compatible con juguetes y preservativos. Imprescindible para la exploración anal.", "imagenes": ["imagenes/Aceites y Lubricantes/Anal Lube.png"], "opciones": [{"grupo": "Sabor", "items": ["Fresa", "Tutti Fruti", "Fresa", "Manzana", "Chicle", "Uva"]}, {"grupo": "Tamaño", "items": ["100ml"]}], "specs": [["Contenido", "100 ml"], ["Base", "Agua"], ["Efecto", "Relajante"], ["Compatibilidad", "Juguetes y preservativos"]]}, {"id": 22, "nombre": "Hot Lub Lubricante 4 en 1", "categoria": "lubricantes", "pareja": false, "precio": 60.9, "precioTachado": 71.9, "badge": "", "emoji": "🌡️", "imagen": "imagenes/Aceites y Lubricantes/Hot Lub.png", "destacado": false, "subtitulo": "Efecto calor activado al contacto", "caracteristicas": [], "descripcion": "Lubricante con efecto calor intenso que se activa al contacto y con el soplo. Base agua, compatible con látex y todos los juguetes. Para quienes quieren sentir más.", "imagenes": ["imagenes/Aceites y Lubricantes/Hot Lub.png"], "opciones": [{"grupo": "Sabor", "items": ["Chicle", "Cereza", "Fresa Champagne", "Manzana", "Fresa", "Chocolate", "Mora"]}, {"grupo": "Tamaño", "items": ["100ml"]}], "specs": [["Contenido", "100 ml"], ["Base", "Agua"], ["Efecto", "Calor intenso, Masajeador, Sexo oral y Lubricante"], ["Activación", "Contacto y soplo"]]}, {"id": 24, "nombre": "Combo Que Rico Empieza", "categoria": "combos", "pareja": true, "precio": 69.9, "precioTachado": 94.8, "badge": "COMBO", "emoji": "🎉", "imagen": "imagenes/Combos Y Packs/Que Rico empieza.png", "destacado": true, "subtitulo": "Bala vibradora + lubricante", "caracteristicas": ["Bala vibradora + lubricante"], "descripcion": "Bala vibradora de silicona + lubricante Five Lube 120ml. Todo lo que necesitas para empezar sin miedo. Discreto, suave y directo al grano.", "imagenes": ["imagenes/Combos Y Packs/Que Rico empieza.png"], "opciones": [{"grupo": "Bala — Color", "items": ["Negro", "Rosa"]}], "specs": [["Bala vibradora", "10 vel. · Pilas · Rosa o Negro"], ["Lubricante", "Five Lube 120ml · Base agua · Sin fragancia"]]}, {"id": 25, "nombre": "Combo Noche Completa", "categoria": "combos", "pareja": true, "precio": 74.9, "precioTachado": 104.9, "badge": "COMBO", "emoji": "🌙", "imagen": "imagenes/Combos Y Packs/Combo Noche Completa.png", "destacado": false, "subtitulo": "Varita masajeadora + aceite de masajes", "caracteristicas": [], "descripcion": "Varita masajeadora 20 modos + aceite de masaje Chandrika. La combinación perfecta para una noche que no se olvida.", "imagenes": ["imagenes/Combos Y Packs/Combo Noche Completa.png"], "opciones": [{"grupo": "Varita — Color", "items": ["Negro", "Rosado", "Morado"]}, {"grupo": "Aceite — Aroma", "items": ["Calma", "Alegría", "Rosas"]}], "specs": [["Varita", "Silicona+ABS · 8 vel.+20 frec. · USB · Impermeable"], ["Aceite", "Chandrika 30ml · Relajante y aromatico"]]}, {"id": 28, "nombre": "Combo Control Total Anal", "categoria": "combos", "pareja": true, "precio": 120.9, "precioTachado": 175.9, "badge": "COMBO", "emoji": "🌸", "imagen": "imagenes/Combos Y Packs/Combo Control Total.png", "destacado": false, "subtitulo": "Plug con control remoto + Analube", "caracteristicas": [], "descripcion": "Plug anal con control remoto + Analube 100ml. Control inalámbrico desde el otro lado de la habitación. Para los que ya saben.", "imagenes": ["imagenes/Combos Y Packs/Combo Control Total.png"], "opciones": [{"grupo": "Analube — Sabor", "items": ["Fresa", "Tutti Fruti", "Manzana", "Chicle"]}], "specs": [["Plug anal", "9×3.5×3.5 cm · 10 vel. · Remoto inalámbrico · 100% impermeable"], ["Lubricante anal", "Analube 100ml · Base agua · Efecto relajante"]]}, {"id": 32, "nombre": "Combo Primera Vez Kerico", "categoria": "combos", "pareja": true, "precio": 54.9, "precioTachado": 65.9, "badge": "COMBO", "emoji": "🌸", "imagen": "imagenes/Combos Y Packs/Combo Primera Vez.png", "destacado": false, "subtitulo": "Bala vibradora + aceite de masajes", "caracteristicas": [], "descripcion": "Bala vibradora silicona + aceite de masajes Chandrika. Los dos productos más suaves del catálogo juntos. Cómodo, rico y sin complicaciones.", "imagenes": ["imagenes/Combos Y Packs/Combo Primera Vez.png"], "opciones": [{"grupo": "Bala — Color", "items": ["Negro", "Rosado"]}, {"grupo": "Aceite — Aroma", "items": ["Vainilla", "Mora Vainilla", "Lavanda", "Orange Mango", "Rosas", "Romero"]}], "specs": [["Bala vibradora", "10 vel. · Pilas"], ["Aceite", "Chandrika 30ml · Textura suave · Absorción rápida"]]}, {"id": 34, "nombre": "Combo Sucker Experience", "categoria": "combos", "pareja": true, "precio": 89.9, "precioTachado": 123.9, "badge": "COMBO", "emoji": "✨", "imagen": "imagenes/Combos Y Packs/Combo Sucker Experience.png", "destacado": false, "subtitulo": "Succionador silencioso + lubricante", "caracteristicas": [], "descripcion": "Succionador silencioso 5 modos + Five Lube 120ml. La mejor combinación para quien quiere el máximo placer en silencio.", "imagenes": ["imagenes/Combos Y Packs/Combo Sucker Experience.png"], "opciones": [], "specs": [["Succionador", "5 frec. · USB · 220mAh · 100% impermeable"], ["Lubricante", "Five Lube 120ml · Base agua · Sin fragancia"]]}];
 const QUIZ_TAGS = {"1": ["mi", "suave", "precio", "discrecion", "facilidad"], "14": ["mi", "pareja", "regalo", "suave", "precio", "facilidad"], "2": ["mi", "variado", "discrecion", "facilidad"], "4": ["mi", "variado", "intenso", "discrecion"], "6": ["mi", "intenso"], "7": ["mi", "intenso", "variado"], "5": ["pareja", "variado", "pareja-exp", "facilidad"], "8": ["pareja", "variado", "pareja-exp"], "24": ["pareja", "regalo", "suave", "precio", "facilidad"], "25": ["pareja", "variado", "pareja-exp"], "32": ["regalo", "mi", "suave", "precio"], "9": ["pareja", "intenso", "pareja-exp"]};
 const QUIZ_FALLBACK = [1, 2, 4];
 
@@ -775,6 +829,7 @@ function formatFechaLarga(iso) {
 }
 const TXT_APERTURA = formatFechaLarga(CONFIG.aperturaPreventa);
 const TXT_INICIO_PAGOS = formatFechaLarga(CONFIG.inicioPagos);
+const TXT_CIERRE = formatFechaLarga(CONFIG.cierrePreventa);
 const TXT_LANZAMIENTO = formatFechaLarga(CONFIG.lanzamientoGeneral);
 
 // ---------------------------------------------------------------------
@@ -924,7 +979,7 @@ function renderHero() {
   if (estado === "antes") {
     badge.textContent = "🔥 Preventa limitada · Solo " + CONFIG.totalPreventa + " beneficios";
     title.innerHTML = 'La preventa más rica del año <span class="gradient-text">comienza pronto</span>';
-    subtitle.textContent = "El " + TXT_APERTURA + " abrimos reservas con 10% adicional sobre el precio más bajo de todo el catálogo, acceso anticipado y un regalo sorpresa. No necesitas pagar para anotarte.";
+    subtitle.textContent = "El " + TXT_APERTURA + " abrimos reservas con 10% adicional sobre el precio más bajo de todo el catálogo en productos individuales, acceso anticipado y un regalo sorpresa. No necesitas pagar para anotarte.";
     microtext.textContent = "Te avisamos apenas abra.";
     cdLabel.textContent = "La preventa abre en:";
     eyebrow.textContent = "Muy pronto";
@@ -1066,31 +1121,32 @@ function renderHeroVisual(estado) {
 // ---------------------------------------------------------------------
 // 11. RENDER: TARJETAS DE PRODUCTO
 // ---------------------------------------------------------------------
+// Devuelve {old, new} — los mismos dos precios que ya se muestran en la tarjeta,
+// sin calcular ni mostrar un tercer precio ni el porcentaje/ahorro.
+function preciosDeTarjeta(p) {
+  const estado = getEstadoEfectivo();
+  if (estado === "abierta") {
+    const r = precioPreventaDeProducto(p);
+    return { old: formatSoles(r.precioBase), new: formatSoles(r.precioFinal) };
+  }
+  return { old: p.precioTachado ? formatSoles(p.precioTachado) : null, new: formatSoles(p.precio) };
+}
+
 function tarjetaProducto(p, destacada) {
   const estado = getEstadoEfectivo();
   const enPreventa = estado === "abierta";
-  let precioHTML;
-
+  const precios = preciosDeTarjeta(p);
+  let precioHTML = '<div class="price-line">' +
+    (precios.old ? '<span class="price-old">' + precios.old + '</span>' : '') +
+    '<span class="price-new">' + precios.new + '</span></div>';
   if (enPreventa) {
     const r = precioPreventaDeProducto(p);
-    precioHTML = '<div class="price-line"><span class="price-old">' + formatSoles(r.precioBase) + '</span>' +
-      '<span class="price-new">' + formatSoles(r.precioFinal) + '</span></div>' +
-      '<p class="price-save">10% adicional aplicado · Ahorras ' + formatSoles(r.ahorroPreventa) + '</p>';
-  } else {
-    precioHTML = '<div class="price-line">' +
-      (p.precioTachado ? '<span class="price-old">' + formatSoles(p.precioTachado) + '</span>' : '') +
-      '<span class="price-new">' + formatSoles(p.precio) + '</span></div>';
+    precioHTML += '<p class="price-save">10% adicional aplicado · Ahorras ' + formatSoles(r.ahorroPreventa) + '</p>';
   }
 
   const featsHTML = (p.caracteristicas && p.caracteristicas.length && destacada)
     ? '<div class="product-feats">' + p.caracteristicas.map(c => '<span>' + c + '</span>').join('') + '</div>'
     : '';
-
-  let btnTexto;
-  if (estado === "antes") btnTexto = "Avísame cuando abra";
-  else if (estado === "abierta") btnTexto = "Reservar este producto";
-  else if (estado === "agotada" || estado === "cerrada") btnTexto = "Avísame del lanzamiento";
-  else btnTexto = "Comprar por WhatsApp";
 
   const card = document.createElement("div");
   card.className = "product-card reveal";
@@ -1104,16 +1160,17 @@ function tarjetaProducto(p, destacada) {
       (p.subtitulo ? '<p class="product-sub">' + p.subtitulo + '</p>' : '') +
       featsHTML +
       '<div class="product-price-block">' + precioHTML + '</div>' +
-      '<a href="#" class="product-buy" data-id="' + p.id + '">' + btnTexto + '</a>' +
+      '<a href="#" class="product-buy" data-id="' + p.id + '">Reservar este producto</a>' +
     '</div>';
 
+  // Tocar la imagen, el nombre o cualquier parte de la tarjeta abre el popup de detalle
+  card.addEventListener("click", () => openProductPopup(p.id));
+
+  // El botón de reserva de la tarjeta NO debe abrir el popup — abre el formulario directo
   card.querySelector(".product-buy").addEventListener("click", (e) => {
     e.preventDefault();
-    if (estado === "abierta") openReservaModal({ nombre: p.nombre, id: p.id });
-    else if (estado === "antes") abrirWhatsApp(mensajeAvisoPreventa(p.nombre));
-    else if (estado === "agotada") abrirWhatsApp(mensajeAvisoAgotada(p.nombre));
-    else if (estado === "cerrada") abrirWhatsApp(mensajeAvisoLanzamiento(p.nombre));
-    else abrirWhatsApp(mensajeComprarProducto(p.nombre));
+    e.stopPropagation();
+    openReservaModal({ nombre: p.nombre, id: p.id });
   });
 
   return card;
@@ -1166,7 +1223,7 @@ function initQuiz() {
     btn.addEventListener("click", () => {
       const q = btn.dataset.q;
       quizState["q" + q] = btn.dataset.v;
-      document.getElementById("qp-" + q).querySelector("i").style.width = "100%";
+      document.getElementById("qp-" + q).style.width = "100%";
       if (q === "1") showQuizStep(2);
       else if (q === "2") showQuizStep(3);
       else if (q === "3") finishQuiz();
@@ -1200,28 +1257,28 @@ function finishQuiz() {
 
   const grid = document.getElementById("quiz-result-grid");
   grid.innerHTML = recomendados.map(p => {
-    let preciosHTML;
-    if (estado === "abierta") {
-      const r = precioPreventaDeProducto(p);
-      preciosHTML = '<p class="qr-precios"><span class="old">' + formatSoles(r.precioBase) + '</span><span class="new">' + formatSoles(r.precioFinal) + '</span></p>';
-    } else {
-      preciosHTML = '<p class="qr-precios"><span class="new">' + formatSoles(p.precio) + '</span></p>';
-    }
-    const btnTexto = estado === "abierta" ? "Reservar este producto" : (estado === "lanzamiento" ? "Comprar por WhatsApp" : "Avísame");
-    return '<div class="quiz-result-item"><img src="' + p.imagen + '" alt="' + p.nombre + '" width="120" height="120">' +
-      '<p>' + p.nombre + '</p>' + preciosHTML +
-      '<button type="button" data-id="' + p.id + '" data-nombre="' + p.nombre.replace(/"/g, '&quot;') + '">' + btnTexto + '</button></div>';
+    const precios = preciosDeTarjeta(p);
+    const preciosHTML = '<p class="qr-precios">' +
+      (precios.old ? '<span class="old">' + precios.old + '</span>' : '') +
+      '<span class="new">' + precios.new + '</span></p>';
+    return '<div class="quiz-result-item">' +
+      '<div class="quiz-result-trigger" data-popup-id="' + p.id + '">' +
+        '<img src="' + p.imagen + '" alt="' + p.nombre + '" width="120" height="120">' +
+        '<p>' + p.nombre + '</p>' +
+      '</div>' + preciosHTML +
+      '<button type="button" data-id="' + p.id + '" data-nombre="' + p.nombre.replace(/"/g, '&quot;') + '">Reservar este producto</button></div>';
   }).join("");
 
+  grid.querySelectorAll(".quiz-result-trigger").forEach(el => {
+    el.addEventListener("click", () => openProductPopup(Number(el.dataset.popupId)));
+  });
+
   grid.querySelectorAll("button[data-id]").forEach(btn => {
-    btn.addEventListener("click", () => {
+    btn.addEventListener("click", (e) => {
+      e.stopPropagation();
       const nombre = btn.dataset.nombre;
       const id = Number(btn.dataset.id);
-      if (estado === "abierta") openReservaModal({ nombre, id });
-      else if (estado === "agotada") abrirWhatsApp(mensajeAvisoAgotada(nombre));
-      else if (estado === "cerrada") abrirWhatsApp(mensajeAvisoLanzamiento(nombre));
-      else if (estado === "lanzamiento") abrirWhatsApp(mensajeComprarProducto(nombre));
-      else abrirWhatsApp(mensajeAvisoPreventa(nombre));
+      openReservaModal({ nombre, id });
     });
   });
 
@@ -1237,7 +1294,7 @@ function getFAQItems() {
     ["¿Necesito pagar para reservar?", "No. Reservar tu beneficio de preventa no requiere ningún pago."],
     ["¿Puedo cancelar mi reserva?", "Sí, puedes cancelarla en cualquier momento antes de completar la compra."],
     ["¿Cuándo podré pagar?", "Desde el " + TXT_INICIO_PAGOS + " te contactamos por WhatsApp para confirmar tu producto, aplicar el descuento y coordinar el pago."],
-    ["¿Cuándo recibiré mi producto?", "El despacho comienza después de confirmar tu pago. El tiempo exacto depende de tu ubicación y del método de envío."],
+    ["¿Cuándo recibiré mi producto?", "El despacho comienza desde el " + TXT_CIERRE + ", después de confirmar tu pago. El tiempo exacto depende de tu ubicación y del método de envío."],
     ["¿Cómo recibo el descuento?", "Nuestro equipo lo aplica manualmente al confirmar tu pedido por WhatsApp, sobre el precio más bajo vigente del producto."],
     ["¿Qué productos tienen 10%?", "Todos los productos del catálogo tienen 10% adicional durante la preventa, sobre su precio original o su precio promocional vigente, el que sea menor."],
     ["¿Qué incluye el regalo sorpresa?", "Es sorpresa — no adelantamos qué producto es ni su valor."],
@@ -1286,6 +1343,142 @@ function trapFocusHandler(e, container) {
   const first = focusables[0], last = focusables[focusables.length - 1];
   if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
   else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+}
+
+// ---------------------------------------------------------------------
+// 14b. POPUP DE DETALLE DE PRODUCTO
+// ---------------------------------------------------------------------
+let pmKeyHandler = null;
+let pmCerrandoTimeout = null;
+let pmLastFocusedEl = null;
+let pmOpcionesSeleccionadas = {}; // { "grupoIdx": "item elegido" }
+let pmCurrentProduct = null;
+let pmImgIndex = 0;
+
+function openProductPopup(id) {
+  const p = PRODUCTOS.find(x => x.id === id);
+  if (!p) return;
+  pmCurrentProduct = p;
+  pmOpcionesSeleccionadas = {};
+  pmImgIndex = 0;
+
+  // Galería (o una sola imagen si no hay más)
+  const heroWrap = document.getElementById("pm-hero-wrap");
+  const imgs = (p.imagenes && p.imagenes.length) ? p.imagenes : [p.imagen];
+  heroWrap.innerHTML =
+    (p.badge ? '<span class="pm-badge">' + p.badge + '</span>' : '') +
+    '<div class="pm-img-track" id="pm-img-track">' +
+      imgs.map(src => '<div class="pm-img-slide"><img src="' + src + '" alt="' + p.nombre + '" width="480" height="480"></div>').join('') +
+    '</div>' +
+    (imgs.length > 1 ? '<button class="pm-img-prev" id="pm-img-prev" aria-label="Anterior">‹</button><button class="pm-img-next" id="pm-img-next" aria-label="Siguiente">›</button><div class="pm-img-dots">' +
+      imgs.map((_, i) => '<button class="pm-img-dot' + (i === 0 ? ' active' : '') + '" data-i="' + i + '" aria-label="Imagen ' + (i+1) + '"></button>').join('') + '</div>' : '');
+
+  if (imgs.length > 1) {
+    const track = document.getElementById("pm-img-track");
+    const dots = heroWrap.querySelectorAll(".pm-img-dot");
+    function goImg(n) {
+      pmImgIndex = (n + imgs.length) % imgs.length;
+      track.style.transform = "translateX(-" + (pmImgIndex * 100) + "%)";
+      dots.forEach((d, i) => d.classList.toggle("active", i === pmImgIndex));
+    }
+    document.getElementById("pm-img-prev").addEventListener("click", () => goImg(pmImgIndex - 1));
+    document.getElementById("pm-img-next").addEventListener("click", () => goImg(pmImgIndex + 1));
+    dots.forEach(d => d.addEventListener("click", () => goImg(Number(d.dataset.i))));
+  }
+
+  document.getElementById("pm-name").textContent = p.nombre;
+  document.getElementById("pm-desc").textContent = p.descripcion || p.subtitulo || "";
+
+  // Características disponibles (specs reales del producto, si existen)
+  const specsWrap = document.getElementById("pm-specs-wrap");
+  const specsEl = document.getElementById("pm-specs");
+  if (p.specs && p.specs.length) {
+    specsEl.innerHTML = p.specs.map(([k, v]) =>
+      '<div class="pm-spec-row"><span class="pm-spec-label">' + k + '</span><span class="pm-spec-value">' + v + '</span></div>'
+    ).join("");
+    specsWrap.hidden = false;
+  } else {
+    specsEl.innerHTML = "";
+    specsWrap.hidden = true;
+  }
+
+  // Precios: exactamente los mismos que ya se ven en la tarjeta — sin un tercer precio ni cálculo de 10%
+  const precios = preciosDeTarjeta(p);
+  document.getElementById("pm-price-block").innerHTML =
+    (precios.old ? '<span class="price-old">' + precios.old + '</span>' : '') +
+    '<span class="price-new">' + precios.new + '</span>';
+
+  // Opciones (color / talla / aroma / sabor), solo si el producto las tiene
+  const opcionesEl = document.getElementById("pm-opciones");
+  if (p.opciones && p.opciones.length) {
+    opcionesEl.innerHTML = p.opciones.map((grupo, gi) => {
+      pmOpcionesSeleccionadas[gi] = grupo.items[0];
+      return '<div class="pm-opcion-grupo">' +
+        '<span class="pm-opcion-grupo-label">' + grupo.grupo + '</span>' +
+        '<div class="pm-opcion-btns">' +
+        grupo.items.map((item, ii) =>
+          '<button type="button" class="pm-opcion-btn' + (ii === 0 ? ' active' : '') + '" data-grupo="' + gi + '" data-item="' + item.replace(/"/g, '&quot;') + '">' + item + '</button>'
+        ).join('') +
+        '</div></div>';
+    }).join('');
+    opcionesEl.querySelectorAll(".pm-opcion-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const gi = btn.dataset.grupo;
+        opcionesEl.querySelectorAll('.pm-opcion-btn[data-grupo="' + gi + '"]').forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        pmOpcionesSeleccionadas[gi] = btn.dataset.item;
+      });
+    });
+  } else {
+    opcionesEl.innerHTML = "";
+  }
+
+  document.getElementById("pm-reservar").onclick = () => {
+    let nombreConVariante = p.nombre;
+    if (p.opciones && p.opciones.length) {
+      const seleccion = p.opciones.map((grupo, gi) => grupo.grupo + ": " + pmOpcionesSeleccionadas[gi]).join(", ");
+      nombreConVariante = p.nombre + " (" + seleccion + ")";
+    }
+    closeProductPopup();
+    openReservaModal({ nombre: nombreConVariante, id: p.id });
+  };
+
+  // Mostrar con el mismo patrón hidden/inert que el resto de modales
+  pmLastFocusedEl = document.activeElement;
+  const modal = document.getElementById("product-modal");
+  if (pmCerrandoTimeout) { clearTimeout(pmCerrandoTimeout); pmCerrandoTimeout = null; }
+  modal.hidden = false;
+  modal.inert = false;
+  requestAnimationFrame(() => {
+    modal.classList.add("active");
+    modal.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";
+    document.getElementById("pm-name").focus();
+  });
+
+  pmKeyHandler = (e) => {
+    if (e.key === "Escape") { closeProductPopup(); return; }
+    trapFocusHandler(e, modal.querySelector(".pm-card"));
+  };
+  document.addEventListener("keydown", pmKeyHandler);
+}
+
+function closeProductPopup() {
+  const modal = document.getElementById("product-modal");
+  modal.classList.remove("active");
+  modal.setAttribute("aria-hidden", "true");
+  modal.inert = true;
+  document.body.style.overflow = "";
+  if (pmKeyHandler) { document.removeEventListener("keydown", pmKeyHandler); pmKeyHandler = null; }
+  pmCerrandoTimeout = setTimeout(() => { modal.hidden = true; }, 300);
+  if (pmLastFocusedEl && typeof pmLastFocusedEl.focus === "function") pmLastFocusedEl.focus();
+}
+
+function initProductPopup() {
+  document.getElementById("pm-close").addEventListener("click", closeProductPopup);
+  document.getElementById("product-modal").addEventListener("click", (e) => {
+    if (e.target.id === "product-modal") closeProductPopup();
+  });
 }
 
 // ---------------------------------------------------------------------
@@ -1612,6 +1805,7 @@ document.addEventListener("DOMContentLoaded", () => {
   renderHero();
   renderFAQ();
   initQuiz();
+  initProductPopup();
   initReservaForm();
   initCountdown();
   injectJSONLD();
