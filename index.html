@@ -467,7 +467,289 @@
         .upsell-info{ display:flex; justify-content:space-between; align-items:center; flex:1; gap:10px; }
         .upsell-name{ font-size:0.92rem; }
         .upsell-price{ font-weight:700; color:var(--fucsia); white-space:nowrap; }
-    </style>
+
+
+        /* ============================================================
+           KERICO — MEJORAS QUIZ / CARRITO / COMPLETA TU PEDIDO
+           ============================================================ */
+
+        /* El carrito debe ser legible incluso sobre fondos oscuros */
+        .cart-sidebar {
+            background: #160800;
+            border-left: 1px solid rgba(255,140,0,0.32);
+        }
+        .cart-header {
+            background: #0e0500;
+            border-bottom-color: rgba(255,140,0,0.28);
+        }
+        .cart-title,
+        .cart-item-name,
+        .cart-item-qty,
+        .payment-title,
+        .summary-row,
+        .cart-coupon input {
+            color: #FFFFFF;
+        }
+        .cart-item-name {
+            text-decoration-color: rgba(255,255,255,0.55) !important;
+        }
+        .cart-item-variant {
+            color: rgba(255,255,255,0.78);
+        }
+        .cart-item-price,
+        #cart-subtotal,
+        #cart-total {
+            color: #FFB347;
+            font-weight: 800;
+        }
+        .summary-row.total {
+            color: #FFFFFF;
+            border-top-color: rgba(255,255,255,0.28);
+        }
+        .summary-row.total span:last-child {
+            color: #FFB347;
+            font-size: 1.22rem;
+        }
+        .summary-row.discount,
+        #cart-discount {
+            color: #7CFF9B;
+            font-weight: 700;
+        }
+        .cart-item {
+            border-bottom-color: rgba(255,255,255,0.16);
+        }
+        .cart-item-image {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,140,0,0.22);
+        }
+        .qty-btn {
+            border-color: rgba(255,255,255,0.55);
+            background: rgba(255,255,255,0.07);
+            color: #FFFFFF;
+        }
+        .cart-item-remove {
+            color: rgba(255,255,255,0.78);
+        }
+        .cart-footer {
+            background: #100600;
+            border-top-color: rgba(255,140,0,0.32);
+        }
+        .payment-option {
+            color: #FFFFFF;
+            border-color: rgba(255,255,255,0.38);
+            background: rgba(255,255,255,0.04);
+        }
+        .payment-option.active {
+            border-color: #FF8C00;
+            background: rgba(255,140,0,0.18);
+        }
+
+        /* El área central del carrito siempre puede desplazarse */
+        .cart-items {
+            min-height: 0;
+            overflow-y: auto;
+            overscroll-behavior: contain;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: thin;
+        }
+
+        /* Resultados del quiz: las tarjetas insertadas dinámicamente deben verse de inmediato */
+        #quiz-result-grid .product-card {
+            opacity: 1;
+            transform: none;
+        }
+        #quiz-result-grid .product-image {
+            background: #0d0400;
+        }
+        #quiz-result-grid .product-image img {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* "¿Completas tu pedido?" con miniaturas y scroll interno */
+        #upsell-modal .modal-card {
+            max-height: min(88vh, 720px);
+            overflow-y: auto;
+            overscroll-behavior: contain;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: thin;
+        }
+        #upsell-modal .upsell-item {
+            background: rgba(255,255,255,0.045);
+            border-color: rgba(255,140,0,0.28);
+        }
+        #upsell-modal .upsell-check {
+            align-items: center;
+        }
+        .upsell-thumb {
+            width: 52px;
+            height: 52px;
+            flex: 0 0 52px;
+            border-radius: 10px;
+            overflow: hidden;
+            background: #0d0400;
+            border: 1px solid rgba(255,140,0,0.25);
+            margin-right: 2px;
+        }
+        .upsell-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+        #upsell-modal .upsell-name {
+            color: #FFFFFF;
+            font-weight: 650;
+            line-height: 1.3;
+        }
+        #upsell-modal .upsell-price {
+            color: #FFB347;
+            font-size: 1rem;
+        }
+        #upsell-modal .form-input {
+            color: #FFFFFF;
+            background: rgba(255,255,255,0.08);
+            border-color: rgba(255,255,255,0.22);
+        }
+
+        @media (max-width: 480px) {
+            .upsell-thumb {
+                width: 46px;
+                height: 46px;
+                flex-basis: 46px;
+            }
+            #upsell-modal .modal-card {
+                padding: 34px 20px 24px;
+            }
+        }
+
+    
+
+        /* ============================================================
+           KERICO — CONTRASTE FINAL CARRITO / CHECKOUT / PRECIOS TACHADOS
+           ============================================================ */
+
+        /* Todos los precios tachados son secundarios: más pequeños y discretos. */
+        .offer-old-price {
+            font-size: 0.72rem !important;
+            line-height: 1 !important;
+            color: rgba(255,255,255,0.58) !important;
+            font-weight: 500 !important;
+            letter-spacing: 0 !important;
+        }
+        .product-price .old-price,
+        .product-price span[style*="line-through"] {
+            font-size: 0.58em !important;
+            line-height: 1 !important;
+            opacity: 0.58 !important;
+            font-weight: 500 !important;
+            color: rgba(255,255,255,0.68) !important;
+            margin-left: 4px;
+            vertical-align: middle;
+        }
+        #product-modal .pm-price span[style*="line-through"] {
+            font-size: 0.48em !important;
+            opacity: 0.62 !important;
+            color: rgba(255,255,255,0.72) !important;
+            -webkit-text-fill-color: rgba(255,255,255,0.72) !important;
+            font-weight: 500 !important;
+        }
+
+        /* Contraste fuerte en todo el flujo de carrito y checkout. */
+        .cart-sidebar,
+        #checkout-modal .modal-card,
+        #upsell-modal .modal-card {
+            color: #FFFFFF;
+        }
+        .cart-sidebar .cart-item-name,
+        .cart-sidebar .cart-item-qty,
+        .cart-sidebar .payment-title,
+        .cart-sidebar .summary-row span:first-child,
+        #checkout-modal .modal-title,
+        #checkout-modal .modal-subtitle,
+        #checkout-modal .form-label,
+        #checkout-modal .checkout-summary-title,
+        #checkout-modal .checkout-summary-item span:first-child,
+        #upsell-modal .modal-title,
+        #upsell-modal .modal-subtitle {
+            color: #FFFFFF !important;
+        }
+        .cart-sidebar .cart-item-variant,
+        #checkout-modal .modal-subtitle {
+            color: rgba(255,255,255,0.82) !important;
+        }
+
+        /* Cada mención de dinero en carrito/checkout resalta claramente. */
+        .cart-sidebar .cart-item-price,
+        #cart-subtotal,
+        #cart-total,
+        #checkout-modal .checkout-summary-item span:last-child,
+        #checkout-total,
+        #upsell-modal .upsell-price {
+            color: #FFD08A !important;
+            font-weight: 800 !important;
+            text-shadow: 0 1px 10px rgba(255,140,0,0.14);
+        }
+        #cart-total,
+        #checkout-total {
+            font-size: 1.28rem !important;
+        }
+        .cart-sidebar .summary-row.total,
+        #checkout-modal .summary-row.total {
+            color: #FFFFFF !important;
+            border-top-color: rgba(255,255,255,0.30) !important;
+        }
+        #cart-discount,
+        .cart-sidebar .summary-row.discount {
+            color: #8BFFAA !important;
+            font-weight: 800 !important;
+        }
+
+        /* Alertas y errores del checkout: alto contraste y legibles. */
+        #checkout-modal .form-error.visible,
+        #upsell-modal .form-error.visible {
+            display: block !important;
+            color: #FFFFFF !important;
+            background: rgba(190, 28, 28, 0.72) !important;
+            border: 1px solid rgba(255, 135, 135, 0.95) !important;
+            border-radius: 10px;
+            padding: 10px 12px;
+            margin-top: 10px;
+            font-size: 0.86rem !important;
+            font-weight: 700;
+            line-height: 1.4;
+        }
+        #checkout-modal .form-input.error,
+        #upsell-modal .form-input.error {
+            border-color: #FF7A7A !important;
+            box-shadow: 0 0 0 2px rgba(255,80,80,0.14);
+        }
+        .cart-sidebar .cart-coupon-message.error {
+            color: #FFFFFF !important;
+            background: rgba(190,28,28,0.72);
+            border: 1px solid rgba(255,135,135,0.95);
+            border-radius: 8px;
+            padding: 7px 10px;
+            margin-top: -10px;
+            font-weight: 700;
+        }
+        .cart-sidebar .cart-coupon-message.success {
+            color: #D8FFE3 !important;
+            font-weight: 700;
+        }
+
+        /* El resumen final puede desplazarse en pantallas pequeñas sin perder el total. */
+        #checkout-modal .modal-card {
+            max-height: 90vh;
+            overflow-y: auto;
+            overscroll-behavior: contain;
+            -webkit-overflow-scrolling: touch;
+        }
+        #checkout-modal .checkout-summary {
+            background: rgba(255,255,255,0.065);
+            border: 1px solid rgba(255,140,0,0.22);
+        }
+</style>
 <!-- Google Analytics 4 — KERICO -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-0YX38R630Z"></script>
 <script>
@@ -642,7 +924,7 @@ src="https://www.facebook.com/tr?id=1451871843102454&ev=PageView&noscript=1"
                     </svg>
                     <span class="cart-badge" id="cart-count">4</span>
                 </button>
-                <a href="https://wa.me/51951707008?text=Hola!%20Vi%20su%20tienda%20y%20me%20interesa%20saber%20m%C3%A1s%20sobre%20sus%20productos%20%F0%9F%91%80" class="btn btn-whatsapp btn-sm navbar-whatsapp" id="nav-whatsapp">
+                <a href="https://wa.me/51951707008?text=%C2%A1Holaa%21%20Estoy%20viendo%20los%20productos%20de%20KERICO%20y%20me%20gustar%C3%ADa%20un%20poco%20de%20asesor%C3%ADa%20para%20elegir%20%F0%9F%98%8A" class="btn btn-whatsapp btn-sm navbar-whatsapp" id="nav-whatsapp">
                     <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
                         <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"></path>
                     </svg>
@@ -685,7 +967,7 @@ src="https://www.facebook.com/tr?id=1451871843102454&ev=PageView&noscript=1"
             <p class="hero-subtitle">Productos de calidad que te van a romper, pero no el bolsillo. Todo tipo de medio de pago.</p>
             <div class="hero-buttons">
                 <a href="#catalogo" class="btn btn-primary btn-lg">Ver productos</a>
-                <a href="https://wa.me/51951707008?text=Hola!%20Vi%20su%20tienda%20y%20me%20interesa%20saber%20m%C3%A1s%20sobre%20sus%20productos%20%F0%9F%91%80" class="btn btn-outline btn-lg" id="hero-whatsapp">Escríbenos al WhatsApp</a>
+                <a href="https://wa.me/51951707008?text=%C2%A1Holaa%21%20Estoy%20viendo%20los%20productos%20de%20KERICO%20y%20me%20gustar%C3%ADa%20un%20poco%20de%20asesor%C3%ADa%20para%20elegir%20%F0%9F%98%8A" class="btn btn-outline btn-lg" id="hero-whatsapp">Escríbenos al WhatsApp</a>
             </div>
         </div>
     </section>
@@ -933,6 +1215,7 @@ src="https://www.facebook.com/tr?id=1451871843102454&ev=PageView&noscript=1"
             <div class="upsell-item">
                 <label class="upsell-check">
                     <input type="checkbox" id="upsell-chandrika-check">
+                    <span class="upsell-thumb"><img src="imagenes/Aceites y Lubricantes/Aceites Chandrika.png" alt="Aceite de Masajes Chandrika"></span>
                     <span class="upsell-info"><span class="upsell-name">Aceite de Masajes Chandrika</span><span class="upsell-price">S/. 12.90</span></span>
                 </label>
                 <select class="form-input" id="upsell-chandrika-aroma" style="margin-top:10px;">
@@ -948,6 +1231,7 @@ src="https://www.facebook.com/tr?id=1451871843102454&ev=PageView&noscript=1"
             <div class="upsell-item">
                 <label class="upsell-check">
                     <input type="checkbox" id="upsell-hotlub-check">
+                    <span class="upsell-thumb"><img src="imagenes/Aceites y Lubricantes/Hot Lub.png" alt="Lubricante 4 en 1"></span>
                     <span class="upsell-info"><span class="upsell-name">Lubricante 4 en 1</span><span class="upsell-price">S/. 35.00</span></span>
                 </label>
                 <select class="form-input" id="upsell-hotlub-sabor" style="margin-top:10px;">
@@ -972,7 +1256,7 @@ src="https://www.facebook.com/tr?id=1451871843102454&ev=PageView&noscript=1"
     <section id="nosotras">
         <div class="about-content reveal">
             <h2 class="section-title">¿Quiénes somos?</h2>
-            <p class="about-text">KERICO nació con una idea simple: el placer no debería ser complicado ni costar una fortuna. Seleccionamos productos que realmente valen la pena, los ofrecemos a precios justos y los entregamos con total discreción. Sin tabúes, sin prejuicios y sin vueltas. Solo una forma más fácil, segura y divertida de descubrir lo que te gusta. Porque disfrutar también debería sentirse… ¡Qué Rico!</p>
+            <p class="about-text">En Kerico creemos que pasarla rico no debería costar una fortuna. Somos peruanos, cercanos y sin rodeos. Nada de precios inflados ni de vergüenza. Solo productos de buena calidad, precios justos para el bolsillo de clase media y envío 100% discreto a tu puerta. Porque el placer es para todos, y que rico cuando se puede pagar sin drama.</p>
         </div>
         <div class="stats-container">
             <div class="stat-item reveal"><div class="stat-number" data-target="100">0</div><div class="stat-label">% Discreto</div></div>
@@ -1036,7 +1320,7 @@ src="https://www.facebook.com/tr?id=1451871843102454&ev=PageView&noscript=1"
             <h2 class="contacto-title">¿No sabes qué elegir?</h2>
             <p class="contacto-subtitle">Te ayudamos sin juzgarte 🔥</p>
             <p class="contacto-hours">Atención 24/7, solo para tí</p>
-            <a href="https://wa.me/51951707008?text=Hola!%20Vi%20su%20tienda%20y%20me%20interesa%20saber%20m%C3%A1s%20sobre%20sus%20productos%20%F0%9F%91%80" class="btn btn-whatsapp btn-lg contacto-btn" id="contact-whatsapp">
+            <a href="https://wa.me/51951707008?text=%C2%A1Holaa%21%20Estoy%20viendo%20los%20productos%20de%20KERICO%20y%20me%20gustar%C3%ADa%20un%20poco%20de%20asesor%C3%ADa%20para%20elegir%20%F0%9F%98%8A" class="btn btn-whatsapp btn-lg contacto-btn" id="contact-whatsapp">
                 <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"></path></svg>
                 Escríbenos por WhatsApp
             </a>
@@ -1078,7 +1362,7 @@ src="https://www.facebook.com/tr?id=1451871843102454&ev=PageView&noscript=1"
                     <span class="payment-method">💳 Visa</span>
                     <span class="payment-method">💳 Mastercard</span>
                 </div>
-                <p class="footer-contact">WhatsApp: <a href="https://wa.me/51951707008" id="footer-whatsapp">+51 951707008</a></p>
+                <p class="footer-contact">WhatsApp: <a href="https://wa.me/51951707008?text=%C2%A1Holaa%21%20Estoy%20viendo%20los%20productos%20de%20KERICO%20y%20me%20gustar%C3%ADa%20un%20poco%20de%20asesor%C3%ADa%20para%20elegir%20%F0%9F%98%8A" id="footer-whatsapp">+51 951707008</a></p>
             </div>
         </div>
         <div class="footer-bottom">
@@ -1110,7 +1394,7 @@ src="https://www.facebook.com/tr?id=1451871843102454&ev=PageView&noscript=1"
         </div>
     </div>
     <!-- WhatsApp Float -->
-    <a href="https://wa.me/51951707008?text=Hola!%20Vi%20su%20tienda%20y%20me%20interesa%20saber%20m%C3%A1s%20sobre%20sus%20productos%20%F0%9F%91%80" class="whatsapp-float" id="float-whatsapp">
+    <a href="https://wa.me/51951707008?text=%C2%A1Holaa%21%20Estoy%20viendo%20los%20productos%20de%20KERICO%20y%20me%20gustar%C3%ADa%20un%20poco%20de%20asesor%C3%ADa%20para%20elegir%20%F0%9F%98%8A" class="whatsapp-float" id="float-whatsapp">
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"></path></svg>
         <span class="whatsapp-tooltip">¡Escríbenos!</span>
     </a>
@@ -1119,6 +1403,8 @@ src="https://www.facebook.com/tr?id=1451871843102454&ev=PageView&noscript=1"
         // Variables globales
         const WHATSAPP_NUMBER = "51951707008";
         const WHATSAPP_LINK = `https://wa.me/${WHATSAPP_NUMBER}`;
+        const WHATSAPP_DEFAULT_MESSAGE = "¡Holaa! Estoy viendo los productos de KERICO y me gustaría un poco de asesoría para elegir 😊";
+        const WHATSAPP_DEFAULT_LINK = `${WHATSAPP_LINK}?text=${encodeURIComponent(WHATSAPP_DEFAULT_MESSAGE)}`;
         const NOMBRE_TIENDA = "KERICO";
         // Pega aquí tu API key de Google Maps (Places API) para activar el autocompletado
         // de direcciones en el checkout. Mientras esté vacía, el campo de dirección
@@ -1463,11 +1749,11 @@ src="https://www.facebook.com/tr?id=1451871843102454&ev=PageView&noscript=1"
                 const imagenOferta = oferta.imagenOferta || (producto.imagenes && producto.imagenes[0]) || '';
                 return `<div class="slider-slide">
                     <div class="offer-card">
-                        <div class="offer-image" onclick="openProductModal(${producto.id})" style="cursor:pointer;">
+                        <div class="offer-image" onclick="openProductModal(${producto.id}, true)" style="cursor:pointer;">
                             <img src="${imagenOferta}" alt="${producto.nombre}" style="width:100%;height:100%;object-fit:contain;">
                         </div>
                         <div class="offer-content">
-                            <h3 class="offer-name" onclick="openProductModal(${producto.id})" style="cursor:pointer;">${producto.nombre}</h3>
+                            <h3 class="offer-name" onclick="openProductModal(${producto.id}, true)" style="cursor:pointer;">${producto.nombre}</h3>
                             <div class="offer-prices">
                                 <span class="offer-old-price">S/. ${oferta.precioTachado.toFixed(2)}</span>
                                 <span class="offer-new-price">S/. ${oferta.precio.toFixed(2)}</span>
@@ -1617,7 +1903,7 @@ src="https://www.facebook.com/tr?id=1451871843102454&ev=PageView&noscript=1"
             const imagenHTML = producto.imagenes && producto.imagenes.length > 0
                 ? `<img src="${producto.imagenes[0]}" alt="${producto.nombre}" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">`
                 : producto.emoji;
-            return `<div class="product-card reveal" data-id="${producto.id}" style="cursor:pointer;" onclick="openProductModal(${producto.id})"><div class="product-image">${producto.badge ? `<span class="product-badge ${badgeClass}">${producto.badge}</span>` : ''}${imagenHTML}</div><div class="product-info"><h3 class="product-name">${producto.nombre}</h3>${producto.subtitulo ? `<p class="product-subtitle">${producto.subtitulo}</p>` : ""}<div class="product-rating">★★★★★</div><p class="product-price">S/. ${precioMostrar.toFixed(2)}${producto.precioTachado ? ` <span style="text-decoration:line-through;font-size:0.8em;opacity:0.6;font-weight:400;">S/. ${producto.precioTachado.toFixed(2)}</span>` : ""}</p>${tallaHTML}${colorHTML}${opcionesHTML}<div class="product-buttons"><button class="btn btn-primary" onclick="event.stopPropagation();agregarAlCarrito(${producto.id})">Agregar al carrito</button></div></div></div>`;
+            return `<div class="product-card reveal" data-id="${producto.id}" style="cursor:pointer;" onclick="openProductModal(${producto.id})"><div class="product-image">${producto.badge ? `<span class="product-badge ${badgeClass}">${producto.badge}</span>` : ''}${imagenHTML}</div><div class="product-info"><h3 class="product-name">${producto.nombre}</h3>${producto.subtitulo ? `<p class="product-subtitle">${producto.subtitulo}</p>` : ""}<div class="product-rating">★★★★★</div><p class="product-price">S/. ${precioMostrar.toFixed(2)}${producto.precioTachado ? ` <span class="old-price">S/. ${producto.precioTachado.toFixed(2)}</span>` : ""}</p>${tallaHTML}${colorHTML}${opcionesHTML}<div class="product-buttons"><button class="btn btn-primary" onclick="event.stopPropagation();agregarAlCarrito(${producto.id})">Agregar al carrito</button></div></div></div>`;
         }
 
         // ---------------------------------------------------------------
@@ -1664,6 +1950,9 @@ src="https://www.facebook.com/tr?id=1451871843102454&ev=PageView&noscript=1"
             const recomendados = ids.map(id => productos.find(p => p.id === id)).filter(Boolean);
 
             document.getElementById('quiz-result-grid').innerHTML = recomendados.map(p => crearProductCard(p)).join('');
+            // crearProductCard agrega la clase .reveal. Como estas tarjetas nacen
+            // después de responder el quiz, las activamos aquí para que no queden invisibles.
+            document.querySelectorAll('#quiz-result-grid .reveal').forEach(card => card.classList.add('active'));
             recomendados.forEach(p => initVariantes(p.id));
 
             document.getElementById('quiz-result').classList.add('active');
@@ -1968,9 +2257,27 @@ src="https://www.facebook.com/tr?id=1451871843102454&ev=PageView&noscript=1"
             requestAnimationFrame(update);
         }
         function initWhatsAppLinks() {
-            ['float-whatsapp', 'nav-whatsapp', 'hero-whatsapp', 'contact-whatsapp', 'footer-whatsapp'].forEach(id => { const el = document.getElementById(id); if (el) el.href = WHATSAPP_LINK; });
-            document.getElementById('footer-whatsapp').textContent = `+51 ${WHATSAPP_NUMBER.substring(2)}`;
-            document.addEventListener('click', e => { if (e.target.classList.contains('order-whatsapp')) { e.preventDefault(); const prod = e.target.dataset.producto; window.open(`${WHATSAPP_LINK}?text=${encodeURIComponent(`¡Hola! Me interesa el ${prod}. ¿Me pueden dar más información? 🔥`)}`, '_blank'); } });
+            // Los enlaces generales de WhatsApp siempre abren con un mensaje amable ya escrito.
+            ['float-whatsapp', 'nav-whatsapp', 'hero-whatsapp', 'contact-whatsapp', 'footer-whatsapp'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) {
+                    el.href = WHATSAPP_DEFAULT_LINK;
+                    el.target = '_blank';
+                    el.rel = 'noopener noreferrer';
+                }
+            });
+
+            const footerWhatsApp = document.getElementById('footer-whatsapp');
+            if (footerWhatsApp) footerWhatsApp.textContent = `+51 ${WHATSAPP_NUMBER.substring(2)}`;
+
+            // Los botones específicos de producto conservan su mensaje contextual.
+            document.addEventListener('click', e => {
+                const btn = e.target.closest('.order-whatsapp');
+                if (!btn) return;
+                e.preventDefault();
+                const prod = btn.dataset.producto;
+                window.open(`${WHATSAPP_LINK}?text=${encodeURIComponent(`¡Holaa! Me interesa ${prod} y me gustaría un poco de asesoría 😊`)}`, '_blank');
+            });
         }
 
         // ── PRODUCT MODAL JS ──
@@ -2004,28 +2311,42 @@ src="https://www.facebook.com/tr?id=1451871843102454&ev=PageView&noscript=1"
             39: {"Dildo Talla L":"TPE flexible · 20 × 16.5 × 4.5 cm · Ventosa","Hot Lub":"Base agua · Efecto calor · 4 en 1"}
         };
 
-        function openProductModal(id) {
+        function openProductModal(id, desdeOferta = false) {
             const p = productos.find(x => x.id === id);
             if (!p) return;
 
+            // Si el modal se abrió desde "Ofertas de la semana", usa el precio,
+            // precio tachado e imagen promocional de la oferta vigente.
+            const ofertaActiva = desdeOferta
+                ? obtenerOfertasVigentes().find(o => o.id === id)
+                : null;
+
+            // En modo oferta, la imagen promocional va primero, pero conservamos
+            // las fotos normales del producto detrás para que el usuario pueda verlas.
+            const imagenesBase = Array.isArray(p.imagenes) ? p.imagenes : [];
+            const imagenesModal = ofertaActiva?.imagenOferta
+                ? [ofertaActiva.imagenOferta, ...imagenesBase.filter(src => src !== ofertaActiva.imagenOferta)]
+                : imagenesBase;
+
             // Build hero: image slider if images exist, else emoji
             const heroWrap = document.getElementById('pm-hero-wrap');
-            if (p.imagenes && p.imagenes.length > 0) {
+            if (imagenesModal.length > 0) {
                 heroWrap.innerHTML = `
                     <span class="pm-hero-badge" id="pm-badge" style="display:none;"></span>
                     <div class="pm-img-slider">
                         <div class="pm-img-track" id="pm-img-track">
-                            ${p.imagenes.map(src => `<div class="pm-img-slide"><img src="${src}" alt="${p.nombre}"></div>`).join('')}
+                            ${imagenesModal.map(src => `<div class="pm-img-slide"><img src="${src}" alt="${p.nombre}"></div>`).join('')}
                         </div>
-                        ${p.imagenes.length > 1 ? `<button class="pm-img-prev" id="pm-img-prev">&#8249;</button><button class="pm-img-next" id="pm-img-next">&#8250;</button>` : ''}
-                        ${p.imagenes.length > 1 ? `<div class="pm-img-dots">${p.imagenes.map((_, i) => `<button class="pm-img-dot ${i===0?'active':''}" data-i="${i}"></button>`).join('')}</div>` : ''}
+                        ${imagenesModal.length > 1 ? `<button class="pm-img-prev" id="pm-img-prev">&#8249;</button><button class="pm-img-next" id="pm-img-next">&#8250;</button>` : ''}
+                        ${imagenesModal.length > 1 ? `<div class="pm-img-dots">${imagenesModal.map((_, i) => `<button class="pm-img-dot ${i===0?'active':''}" data-i="${i}"></button>`).join('')}</div>` : ''}
                     </div>`;
+
                 // Init slider
                 let curImg = 0;
                 const track = document.getElementById('pm-img-track');
                 const dots = heroWrap.querySelectorAll('.pm-img-dot');
                 function goImg(n) {
-                    curImg = (n + p.imagenes.length) % p.imagenes.length;
+                    curImg = (n + imagenesModal.length) % imagenesModal.length;
                     track.style.transform = `translateX(-${curImg * 100}%)`;
                     dots.forEach((d, i) => d.classList.toggle('active', i === curImg));
                 }
@@ -2041,16 +2362,36 @@ src="https://www.facebook.com/tr?id=1451871843102454&ev=PageView&noscript=1"
             document.getElementById('pm-sku').textContent = 'SKU: ' + p.sku;
             document.getElementById('pm-name').textContent = p.nombre;
             document.getElementById('pm-desc').textContent = p.descripcion;
+
             const badge = heroWrap.querySelector('#pm-badge');
-            if (p.badge) { badge.textContent = p.badge; badge.style.display = 'block'; } else badge.style.display = 'none';
-            const precioBase = p.variantes?.talla ? p.variantes.talla[0].precio : p.precio;
-            document.getElementById('pm-price').textContent = 'S/. ' + precioBase.toFixed(2);
+            if (ofertaActiva) {
+                badge.textContent = 'OFERTA DE LA SEMANA';
+                badge.style.display = 'block';
+            } else if (p.badge) {
+                badge.textContent = p.badge;
+                badge.style.display = 'block';
+            } else {
+                badge.style.display = 'none';
+            }
+
+            const pmPrice = document.getElementById('pm-price');
+            if (ofertaActiva) {
+                const precioAnterior = ofertaActiva.precioTachado ?? p.precio;
+                pmPrice.innerHTML = `
+                    <span style="font-size:.48em;opacity:.58;text-decoration:line-through;margin-right:10px;color:rgba(255,255,255,.65);-webkit-text-fill-color:rgba(255,255,255,.65);">S/. ${precioAnterior.toFixed(2)}</span>
+                    <span style="color:#FF8C00;-webkit-text-fill-color:#FF8C00;">S/. ${ofertaActiva.precio.toFixed(2)}</span>`;
+            } else {
+                const precioBase = p.variantes?.talla ? p.variantes.talla[0].precio : p.precio;
+                pmPrice.textContent = 'S/. ' + precioBase.toFixed(2);
+            }
+
             const specs = productSpecs[id] || {};
             document.getElementById('pm-specs').innerHTML = Object.entries(specs).map(([k,v]) => `<div class="pm-row"><span class="pm-row-label">${k}</span><span class="pm-row-value">${v}</span></div>`).join('');
             const colorMap = {'Negro':'#1a1a1a','Rosa':'#ff69b4','Rojo':'#dc143c','Morado':'#9b30ff','Azul':'#4169e1','Skin':'#fdbcb4'};
             let varHTML = '';
             if (p.variantes?.talla) varHTML += '<div class="product-variants" style="margin-bottom:12px;"><p class="variant-label">Talla:</p><div class="variant-options">' + p.variantes.talla.map((t,i)=>`<button class="variant-btn talla-btn ${i===0?'active':''}" onclick="document.getElementById('pm-price').textContent='S/. '+parseFloat(this.dataset.precio).toFixed(2);document.querySelectorAll('.talla-btn[data-g=modal]').forEach(b=>b.classList.remove('active'));this.classList.add('active')" data-g="modal" data-precio="${t.precio}">${t.nombre}</button>`).join('') + '</div></div>';
             if (p.variantes?.color) varHTML += '<div class="product-variants"><p class="variant-label">Color:</p><div class="variant-options">' + p.variantes.color.map((c,i)=>`<div class="color-option ${i===0?'active':''}" onclick="document.querySelectorAll('.color-option[data-g=modal]').forEach(o=>o.classList.remove('active'));this.classList.add('active')" data-g="modal" style="background:${colorMap[c]||'#ccc'}"></div>`).join('') + '</div></div>';
+
             // Opciones (colores/sabores/aromas)
             if (p.opciones && p.opciones.length > 0) {
                 varHTML += '<div class="pm-opciones-wrapper">' +
@@ -2066,12 +2407,17 @@ src="https://www.facebook.com/tr?id=1451871843102454&ev=PageView&noscript=1"
                 '</div>';
             }
             document.getElementById('pm-variants-box').innerHTML = varHTML;
-            document.getElementById('pm-add-cart').onclick = function() { 
-                agregarAlCarrito(id); 
-                document.getElementById('product-modal').classList.remove('active'); 
-                document.body.style.overflow=''; 
-                openCart(); 
+
+            const addBtn = document.getElementById('pm-add-cart');
+            addBtn.textContent = ofertaActiva ? 'Agregar oferta al carrito' : 'Agregar al carrito';
+            addBtn.onclick = function() {
+                if (ofertaActiva) agregarOfertaAlCarrito(id, ofertaActiva.precio);
+                else agregarAlCarrito(id);
+                document.getElementById('product-modal').classList.remove('active');
+                document.body.style.overflow='';
+                openCart();
             };
+
             document.getElementById('product-modal').classList.add('active');
             document.body.style.overflow = 'hidden';
         }
