@@ -1769,14 +1769,19 @@ src="https://www.facebook.com/tr?id=1451871843102454&ev=PageView&noscript=1"
 
         // Igual que agregarAlCarrito, pero respeta el precio de oferta de la semana
         // en vez del precio normal del catálogo.
-        function agregarOfertaAlCarrito(id, precioOferta) {
+        function agregarOfertaAlCarrito(id, precioOferta, desdeModal = false) {
             const producto = productos.find(p => p.id === id);
             if (!producto) return;
             const ofertaActiva = obtenerOfertasVigentes().find(o => o.id === id && o.precio === precioOferta);
             const imagenCarrito = ofertaActiva?.imagenOferta || (producto.imagenes && producto.imagenes[0]) || null;
-            const itemExistente = carrito.find(item => item.id === id && item.esOferta && item.precio === precioOferta);
+            const seleccion = obtenerSeleccionProducto(producto, desdeModal);
+            const itemExistente = carrito.find(item =>
+                item.id === id && item.esOferta && item.precio === precioOferta &&
+                JSON.stringify(item.variante || {}) === JSON.stringify(seleccion.variante || {}) &&
+                JSON.stringify(item.opciones || []) === JSON.stringify(seleccion.opciones || [])
+            );
             if (itemExistente) itemExistente.cantidad++;
-            else carrito.push({ id, nombre: producto.nombre, precio: precioOferta, emoji: producto.emoji, imagen: imagenCarrito, variante: { talla: null, color: null }, opciones: [], cantidad: 1, esOferta: true });
+            else carrito.push({ id, nombre: producto.nombre, precio: precioOferta, emoji: producto.emoji, imagen: imagenCarrito, variante: seleccion.variante, opciones: seleccion.opciones, cantidad: 1, esOferta: true });
             guardarCarrito();
             updateCartUI();
             const badge = document.getElementById('cart-count');
@@ -1998,46 +2003,75 @@ src="https://www.facebook.com/tr?id=1451871843102454&ev=PageView&noscript=1"
         function openCart() { document.getElementById('cart-overlay').classList.add('active'); document.getElementById('cart-sidebar').classList.add('active'); document.body.style.overflow = 'hidden'; }
         function closeCart() { document.getElementById('cart-overlay').classList.remove('active'); document.getElementById('cart-sidebar').classList.remove('active'); document.body.style.overflow = ''; }
         
-        function agregarAlCarrito(productoId) {
-            const producto = productos.find(p => p.id === productoId);
-            if (!producto) return;
-            const card = document.querySelector(`.product-card[data-id="${productoId}"]`);
-            const imagenSrc = card ? card.querySelector('img')?.src : '';
-            const tallaBtn = card ? card.querySelector('.talla-btn.active') : null;
-            const colorOpt = card ? card.querySelector('.color-option.active') : null;
+        function obtenerSeleccionProducto(producto, desdeModal = false) {
+            const productoId = producto.id;
+            const card = desdeModal ? null : document.querySelector(`.product-card[data-id="${productoId}"]`);
+            const modal = document.getElementById('product-modal');
+            const tallaBtn = desdeModal ? modal?.querySelector('.talla-btn[data-g="modal"].active') : card?.querySelector('.talla-btn.active');
+            const colorOpt = desdeModal ? modal?.querySelector('.color-option[data-g="modal"].active') : card?.querySelector('.color-option.active');
             const variante = { talla: tallaBtn?.dataset.talla || null, color: colorOpt?.dataset.color || null };
             const precio = tallaBtn ? parseFloat(tallaBtn.dataset.precio) : producto.precio;
-
-            // Recoger opciones seleccionadas (color/sabor/aroma por grupo)
-            let opcionesSeleccionadas = [];
+            const opciones = [];
             if (producto.opciones && producto.opciones.length > 0) {
                 producto.opciones.forEach((grupo, gi) => {
-                    let activeBtn = null;
-                    // Try from card first, fallback to modal
-                    if (card) activeBtn = card.querySelector(`.opcion-btn[data-producto="${productoId}"][data-grupo="${gi}"].active`);
-                    if (!activeBtn) activeBtn = document.querySelector(`#product-modal .pm-opcion-btn[data-grupo="${gi}"].active`);
-                    if (!activeBtn) activeBtn = document.querySelector(`.opcion-btn[data-producto="${productoId}"][data-grupo="${gi}"].active`);
-                    const val = activeBtn ? activeBtn.dataset.item : grupo.items[0];
-                    opcionesSeleccionadas.push({ grupo: grupo.grupo, valor: val });
+                    let activeBtn = desdeModal
+                        ? modal?.querySelector(`.pm-opcion-btn[data-grupo="${gi}"].active`)
+                        : card?.querySelector(`.opcion-btn[data-producto="${productoId}"][data-grupo="${gi}"].active`);
+                    const valor = activeBtn?.dataset.item || grupo.items[0];
+                    opciones.push({ grupo: grupo.grupo, valor });
                 });
             }
+            const imagen = desdeModal
+                ? (modal?.querySelector('.pm-img-slide img')?.getAttribute('src') || producto.imagenes?.[0] || '')
+                : (card?.querySelector('img')?.src || producto.imagenes?.[0] || '');
+            return { variante, opciones, precio, imagen };
+        }
 
+        function agregarAlCarrito(productoId, desdeModal = false) {
+            const producto = productos.find(p => p.id === productoId);
+            if (!producto) return;
+            const seleccion = obtenerSeleccionProducto(producto, desdeModal);
             const itemExistente = carrito.find(item => {
-                if (item.id !== productoId) return false;
-                if (item.variante.talla !== variante.talla || item.variante.color !== variante.color) return false;
-                if (!item.opciones && opcionesSeleccionadas.length > 0) return false;
-                if (item.opciones && JSON.stringify(item.opciones) !== JSON.stringify(opcionesSeleccionadas)) return false;
+                if (item.id !== productoId || item.esOferta) return false;
+                if (JSON.stringify(item.variante || {}) !== JSON.stringify(seleccion.variante || {})) return false;
+                if (JSON.stringify(item.opciones || []) !== JSON.stringify(seleccion.opciones || [])) return false;
                 return true;
             });
             if (itemExistente) itemExistente.cantidad++;
-            else carrito.push({ id: productoId, nombre: producto.nombre, precio, emoji: producto.emoji, imagen: imagenSrc, variante, opciones: opcionesSeleccionadas, cantidad: 1 });
+            else carrito.push({ id: productoId, nombre: producto.nombre, precio: seleccion.precio, emoji: producto.emoji, imagen: seleccion.imagen, variante: seleccion.variante, opciones: seleccion.opciones, cantidad: 1 });
             guardarCarrito();
             updateCartUI();
             const badge = document.getElementById('cart-count');
             badge.style.transform = 'scale(1.3)';
             setTimeout(() => badge.style.transform = '', 200);
         }
-        
+
+        function productoTieneVariantes(item) {
+            if (item.esPack || typeof item.id !== 'number') return false;
+            const p = productos.find(x => x.id === item.id);
+            return !!(p && ((p.variantes?.talla?.length) || (p.variantes?.color?.length) || (p.opciones?.length)));
+        }
+
+        function editarVariantesCarrito(index) {
+            const item = carrito[index];
+            if (!item || !productoTieneVariantes(item)) return;
+            closeCart();
+            openProductModal(item.id, !!item.esOferta, index);
+        }
+
+        function guardarVariantesCarrito(index) {
+            const item = carrito[index];
+            if (!item) return;
+            const producto = productos.find(p => p.id === item.id);
+            if (!producto) return;
+            const seleccion = obtenerSeleccionProducto(producto, true);
+            item.variante = seleccion.variante;
+            item.opciones = seleccion.opciones;
+            if (!item.esOferta) item.precio = seleccion.precio;
+            guardarCarrito();
+            updateCartUI();
+        }
+
         function addPackToCart(nombre, precio) {
             carrito.push({ id: 'pack-' + Date.now(), nombre, precio, emoji: '🎁', variante: { talla: null, color: null }, cantidad: 1, esPack: true });
             guardarCarrito();
@@ -2067,7 +2101,7 @@ src="https://www.facebook.com/tr?id=1451871843102454&ev=PageView&noscript=1"
                     const varianteText = [item.variante.talla, item.variante.color].filter(Boolean);
                     const opcionesText = (item.opciones || []).map(o => `${o.grupo}: ${o.valor}`).join(' · ');
                     const subtitleParts = [...varianteText, ...(opcionesText ? [opcionesText] : [])];
-                    return `<div class="cart-item"><div class="cart-item-image"><img src="${item.imagen || ''}" alt="${item.nombre}" style="width:50px;height:50px;object-fit:cover;border-radius:8px;" onerror="this.style.display='none'"></div><div class="cart-item-details"><p class="cart-item-name" style="cursor:pointer;text-decoration:underline;text-decoration-color:rgba(255,255,255,0.3);" onclick="closeCart();openProductModal(${item.id})">${item.nombre}</p>${subtitleParts.length ? `<p class="cart-item-variant">${subtitleParts.join(' · ')}</p>` : ''}<p class="cart-item-price">S/. ${(item.precio * item.cantidad).toFixed(2)}</p><div class="cart-item-actions"><button class="qty-btn" onclick="actualizarCantidad(${i}, -1)">−</button><span class="cart-item-qty">${item.cantidad}</span><button class="qty-btn" onclick="actualizarCantidad(${i}, 1)">+</button><button class="cart-item-remove" onclick="eliminarDelCarrito(${i})">🗑️</button></div></div></div>`;
+                    return `<div class="cart-item"><div class="cart-item-image"><img src="${item.imagen || ''}" alt="${item.nombre}" style="width:50px;height:50px;object-fit:cover;border-radius:8px;" onerror="this.style.display='none'"></div><div class="cart-item-details"><p class="cart-item-name" style="cursor:pointer;text-decoration:underline;text-decoration-color:rgba(255,255,255,0.3);" onclick="closeCart();openProductModal(${item.id})">${item.nombre}</p>${subtitleParts.length ? `<p class="cart-item-variant">${subtitleParts.join(' · ')}</p>` : ''}${productoTieneVariantes(item) ? `<button class="cart-edit-variants" onclick="editarVariantesCarrito(${i})">Cambiar opciones</button>` : ''}<p class="cart-item-price">S/. ${(item.precio * item.cantidad).toFixed(2)}</p><div class="cart-item-actions"><button class="qty-btn" onclick="actualizarCantidad(${i}, -1)">−</button><span class="cart-item-qty">${item.cantidad}</span><button class="qty-btn" onclick="actualizarCantidad(${i}, 1)">+</button><button class="cart-item-remove" onclick="eliminarDelCarrito(${i})">🗑️</button></div></div></div>`;
                 }).join('');
                 cartFooter.style.display = 'block';
                 updateCartTotals();
@@ -2311,9 +2345,10 @@ src="https://www.facebook.com/tr?id=1451871843102454&ev=PageView&noscript=1"
             39: {"Dildo Talla L":"TPE flexible · 20 × 16.5 × 4.5 cm · Ventosa","Hot Lub":"Base agua · Efecto calor · 4 en 1"}
         };
 
-        function openProductModal(id, desdeOferta = false) {
+        function openProductModal(id, desdeOferta = false, editarCarritoIndex = null) {
             const p = productos.find(x => x.id === id);
             if (!p) return;
+            const itemEditando = (editarCarritoIndex !== null && carrito[editarCarritoIndex]) ? carrito[editarCarritoIndex] : null;
 
             // Si el modal se abrió desde "Ofertas de la semana", usa el precio,
             // precio tachado e imagen promocional de la oferta vigente.
@@ -2389,8 +2424,8 @@ src="https://www.facebook.com/tr?id=1451871843102454&ev=PageView&noscript=1"
             document.getElementById('pm-specs').innerHTML = Object.entries(specs).map(([k,v]) => `<div class="pm-row"><span class="pm-row-label">${k}</span><span class="pm-row-value">${v}</span></div>`).join('');
             const colorMap = {'Negro':'#1a1a1a','Rosa':'#ff69b4','Rojo':'#dc143c','Morado':'#9b30ff','Azul':'#4169e1','Skin':'#fdbcb4'};
             let varHTML = '';
-            if (p.variantes?.talla) varHTML += '<div class="product-variants" style="margin-bottom:12px;"><p class="variant-label">Talla:</p><div class="variant-options">' + p.variantes.talla.map((t,i)=>`<button class="variant-btn talla-btn ${i===0?'active':''}" onclick="document.getElementById('pm-price').textContent='S/. '+parseFloat(this.dataset.precio).toFixed(2);document.querySelectorAll('.talla-btn[data-g=modal]').forEach(b=>b.classList.remove('active'));this.classList.add('active')" data-g="modal" data-precio="${t.precio}">${t.nombre}</button>`).join('') + '</div></div>';
-            if (p.variantes?.color) varHTML += '<div class="product-variants"><p class="variant-label">Color:</p><div class="variant-options">' + p.variantes.color.map((c,i)=>`<div class="color-option ${i===0?'active':''}" onclick="document.querySelectorAll('.color-option[data-g=modal]').forEach(o=>o.classList.remove('active'));this.classList.add('active')" data-g="modal" style="background:${colorMap[c]||'#ccc'}"></div>`).join('') + '</div></div>';
+            if (p.variantes?.talla) varHTML += '<div class="product-variants" style="margin-bottom:12px;"><p class="variant-label">Talla:</p><div class="variant-options">' + p.variantes.talla.map((t,i)=>{ const activa = itemEditando ? itemEditando.variante?.talla === t.nombre : i===0; return `<button type="button" class="variant-btn talla-btn ${activa?'active':''}" data-g="modal" data-talla="${t.nombre}" data-precio="${t.precio}">${t.nombre}</button>`; }).join('') + '</div></div>';
+            if (p.variantes?.color) varHTML += '<div class="product-variants"><p class="variant-label">Color:</p><div class="variant-options">' + p.variantes.color.map((c,i)=>{ const activa = itemEditando ? itemEditando.variante?.color === c : i===0; return `<button type="button" class="color-option ${activa?'active':''}" data-g="modal" data-color="${c}" title="${c}" aria-label="${c}" style="background:${colorMap[c]||'#ccc'}"></button>`; }).join('') + '</div></div>';
 
             // Opciones (colores/sabores/aromas)
             if (p.opciones && p.opciones.length > 0) {
@@ -2399,20 +2434,58 @@ src="https://www.facebook.com/tr?id=1451871843102454&ev=PageView&noscript=1"
                         `<div class="pm-opcion-grupo">` +
                         `<span class="pm-opcion-grupo-label">${grupo.grupo}</span>` +
                         `<div class="pm-opcion-btns">` +
-                        grupo.items.map((item, ii) =>
-                            `<button class="pm-opcion-btn ${ii === 0 ? 'active' : ''}" data-grupo="${gi}" data-item="${item}" onclick="document.querySelectorAll('#product-modal .pm-opcion-btn[data-grupo=\\'${gi}\\']').forEach(b=>b.classList.remove('active'));this.classList.add('active')">${item}</button>`
-                        ).join('') +
+                        grupo.items.map((item, ii) => {
+                            const guardada = itemEditando?.opciones?.find(o => o.grupo === grupo.grupo)?.valor;
+                            const activa = itemEditando ? guardada === item : ii === 0;
+                            return `<button type="button" class="pm-opcion-btn ${activa ? 'active' : ''}" data-grupo="${gi}" data-item="${item}">${item}</button>`;
+                        }).join('') +
                         `</div></div>`
                     ).join('') +
                 '</div>';
             }
-            document.getElementById('pm-variants-box').innerHTML = varHTML;
+            const variantsBox = document.getElementById('pm-variants-box');
+            variantsBox.innerHTML = varHTML;
+
+            // Variantes del modal: listeners directos y aislados del catálogo.
+            // Esto evita que la primera opción vuelva a imponerse después de hacer clic.
+            variantsBox.querySelectorAll('.talla-btn[data-g="modal"]').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    variantsBox.querySelectorAll('.talla-btn[data-g="modal"]').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    if (!ofertaActiva) {
+                        const precioTalla = parseFloat(btn.dataset.precio);
+                        if (!Number.isNaN(precioTalla)) pmPrice.textContent = 'S/. ' + precioTalla.toFixed(2);
+                    }
+                });
+            });
+
+            variantsBox.querySelectorAll('.color-option[data-g="modal"]').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    variantsBox.querySelectorAll('.color-option[data-g="modal"]').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                });
+            });
+
+            variantsBox.querySelectorAll('.pm-opcion-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const grupo = btn.dataset.grupo;
+                    variantsBox.querySelectorAll(`.pm-opcion-btn[data-grupo="${grupo}"]`).forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                });
+            });
 
             const addBtn = document.getElementById('pm-add-cart');
-            addBtn.textContent = ofertaActiva ? 'Agregar oferta al carrito' : 'Agregar al carrito';
+            addBtn.textContent = itemEditando ? 'Guardar cambios' : (ofertaActiva ? 'Agregar oferta al carrito' : 'Agregar al carrito');
             addBtn.onclick = function() {
-                if (ofertaActiva) agregarOfertaAlCarrito(id, ofertaActiva.precio);
-                else agregarAlCarrito(id);
+                if (itemEditando) guardarVariantesCarrito(editarCarritoIndex);
+                else if (ofertaActiva) agregarOfertaAlCarrito(id, ofertaActiva.precio, true);
+                else agregarAlCarrito(id, true);
                 document.getElementById('product-modal').classList.remove('active');
                 document.body.style.overflow='';
                 openCart();
